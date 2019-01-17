@@ -11,6 +11,5 @@ public class FaApplication {
     public static void main(String[] args) {
         SpringApplication.run(FaApplication.class, args);
     }
-
 }
 
