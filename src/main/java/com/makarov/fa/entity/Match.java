@@ -14,16 +14,14 @@ public class Match extends AuditEntity {
     @Column(name = "id")
     private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "competition")
-    private Competition competition;
+    //@ManyToOne(fetch = FetchType.LAZY)
+    //private Competition competition;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "season")
-    private Season season;
+   // @ManyToOne(fetch = FetchType.LAZY)
+   // private Season season;
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "utcDate")
+    @Column(name = "utc_date")
     private Date utcDate;
 
     @Column(name = "status")
@@ -35,15 +33,15 @@ public class Match extends AuditEntity {
     @Column(name = "stage")
     private String stage;
 
-    @Column(name = "group")
+    @Column(name = "group1")
     private String group;
 
     @Column(name = "last_updated")
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdated;
 
-    @Column(name = "score")
-    private Score score;
+    //@OneToOne
+    //private Score score;
 
 
 
