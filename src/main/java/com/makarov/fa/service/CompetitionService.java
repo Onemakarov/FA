@@ -32,7 +32,6 @@ public class CompetitionService {
     public void addAllCompetitions() {
         List<Competition> competitionList = footballDataClient.getAllCompetitions();
         for (Competition competition : competitionList) {
-            competition.getArea().setId(null);
             addCompetition(competition);
         }
     }

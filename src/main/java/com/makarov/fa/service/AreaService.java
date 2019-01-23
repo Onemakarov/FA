@@ -3,6 +3,7 @@ package com.makarov.fa.service;
 import com.makarov.fa.apiclient.FootballDataClient;
 import com.makarov.fa.dao.AreaDao;
 import com.makarov.fa.entity.Area;
+import com.makarov.fa.entity.AreaList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,5 +30,12 @@ public class AreaService {
 
     @Transactional
     public void addAllAreas() {
+
+        AreaList areaList = footballDataClient.getAreaList(footballDataClient.getAllCompetitions());
+
+        for (Area area : areaList.getAreaList()) {
+            areaDao.addArea(area);
+        }
+        List<Area> allAreas = areaDao.getAllAreas();
     }
 }

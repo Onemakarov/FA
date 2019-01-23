@@ -2,18 +2,16 @@ package com.makarov.fa.entity;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 import lombok.Getter;
-import lombok.ToString;
+import org.hibernate.validator.constraints.URL;
 
 import java.util.List;
 
-@ToString
-public class CompetitionList {
+@Data
+public class AreaList {
 
-    @Getter
     @JsonProperty
-    @JsonAlias(value = "competitions")
-    private List<Competition> competitionList;
-
-
+    @JsonAlias(value = "area")
+    private List<Area> areaList;
 }

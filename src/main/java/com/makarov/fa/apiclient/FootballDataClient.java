@@ -1,5 +1,7 @@
 package com.makarov.fa.apiclient;
 
+import com.makarov.fa.entity.Area;
+import com.makarov.fa.entity.AreaList;
 import com.makarov.fa.entity.Competition;
 import com.makarov.fa.entity.CompetitionList;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +33,8 @@ public class FootballDataClient {
 
         String url = "/competitions";
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("X-Auth-Token", "88b92c5a081d4412ba4eae1db4741c56");
-        HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
-
         ResponseEntity<CompetitionList> competitionList = restTemplate
-                .exchange(footballDataUrl + url, HttpMethod.GET, entity, CompetitionList.class);
+                .exchange(footballDataUrl + url, HttpMethod.GET, getHttpEntityWithAuthToken(), CompetitionList.class);
 
         return competitionList.getBody().getCompetitionList();
     }
@@ -45,13 +43,30 @@ public class FootballDataClient {
 
         String url = "/competitions/" + id;
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("X-Auth-Token", "88b92c5a081d4412ba4eae1db4741c56");
-        HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
-
         ResponseEntity<Competition> competition = restTemplate
-                .exchange(footballDataUrl + url, HttpMethod.GET, entity, Competition.class);
+                .exchange(footballDataUrl + url, HttpMethod.GET, getHttpEntityWithAuthToken(), Competition.class);
 
         return competition.getBody();
+    }
+
+    public AreaList getAreaList(List<Competition> competitionList) {
+
+        List<Area> areaArrayList = new ArrayList<>();
+        AreaList areaList = new AreaList();
+
+        for (Competition competition : competitionList) {
+            if (!areaArrayList.contains(competition.getArea())) {
+                areaArrayList.add(competition.getArea());
+            }
+        }
+        areaList.setAreaList(areaArrayList);
+        return areaList;
+    }
+
+    private HttpEntity<String> getHttpEntityWithAuthToken() {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("X-Auth-Token", "88b92c5a081d4412ba4eae1db4741c56");
+        return new HttpEntity<String>("parameters", headers);
     }
 }
