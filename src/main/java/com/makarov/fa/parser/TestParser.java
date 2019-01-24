@@ -22,5 +22,6 @@ public class TestParser {
     @Scheduled(fixedRate = 5000000)
     public void test() {
         areaService.addAllAreas();
+        competitionService.addAllCompetitions();
     }
 }

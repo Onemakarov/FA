@@ -1,7 +1,6 @@
 package com.makarov.fa.entity;
 
 import lombok.Data;
-import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 
@@ -11,7 +10,7 @@ import javax.persistence.*;
 public class Area {
 
     @Id
-    private long id;
+    private Long id;
 
     @Column(name = "name")
     private String name;

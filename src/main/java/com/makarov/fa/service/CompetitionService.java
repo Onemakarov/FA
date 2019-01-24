@@ -1,14 +1,13 @@
 package com.makarov.fa.service;
 
 import com.makarov.fa.apiclient.FootballDataClient;
+import com.makarov.fa.dao.AreaDao;
 import com.makarov.fa.dao.CompetitionDao;
+import com.makarov.fa.entity.Area;
 import com.makarov.fa.entity.Competition;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 public class CompetitionService {
@@ -17,10 +16,13 @@ public class CompetitionService {
 
     private final FootballDataClient footballDataClient;
 
+    private final AreaDao areaDao;
+
     @Autowired
-    public CompetitionService(CompetitionDao competitionDao, FootballDataClient footballDataClient) {
+    public CompetitionService(CompetitionDao competitionDao, FootballDataClient footballDataClient, AreaDao areaDao) {
         this.competitionDao = competitionDao;
         this.footballDataClient = footballDataClient;
+        this.areaDao = areaDao;
     }
 
     @Transactional
@@ -30,9 +32,6 @@ public class CompetitionService {
 
     @Transactional
     public void addAllCompetitions() {
-        List<Competition> competitionList = footballDataClient.getAllCompetitions();
-        for (Competition competition : competitionList) {
-            addCompetition(competition);
-        }
+        competitionDao.addAllCompetitions();
     }
 }
