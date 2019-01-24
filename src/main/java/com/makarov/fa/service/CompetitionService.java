@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class CompetitionService {
 
@@ -32,6 +34,29 @@ public class CompetitionService {
 
     @Transactional
     public void addAllCompetitions() {
-        competitionDao.addAllCompetitions();
+        competitionDao.addAllCompetitions(setAreasFromDbInCompetitions());
+    }
+
+    @Transactional
+    public Competition getCompetitionById(Long competitionId) {
+        return competitionDao.getCompetitionById(competitionId);
+    }
+
+    @Transactional
+    List<Competition> setAreasFromDbInCompetitions() {
+        List<Area> allAreas = areaDao.getAllAreas();
+        List<Competition> competitionList = footballDataClient.getAllCompetitions();
+        for (Competition competition : competitionList) {
+            for (Area area : allAreas) {
+                if (compareArea(competition, area)) {
+                    competition.setArea(area);
+                }
+            }
+        }
+        return competitionList;
+    }
+
+    private static boolean compareArea(Competition competition, Area area) {
+        return competition.getArea().getId().equals(area.getId());
     }
 }

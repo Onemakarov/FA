@@ -12,13 +12,13 @@ public class Match extends AuditEntity {
 
     @Id
     @Column(name = "id")
-    private long id;
+    private Long id;
 
-    //@ManyToOne(fetch = FetchType.LAZY)
-    //private Competition competition;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Competition competition;
 
-   // @ManyToOne(fetch = FetchType.LAZY)
-   // private Season season;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Season season;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "utc_date")
@@ -40,8 +40,8 @@ public class Match extends AuditEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdated;
 
-    //@OneToOne
-    //private Score score;
+    @OneToOne
+    private Score score;
 
 
 

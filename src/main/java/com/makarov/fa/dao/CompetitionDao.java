@@ -38,27 +38,9 @@ public class CompetitionDao {
         entityManager.persist(competition);
     }
 
-    public void addAllCompetitions() {
-        List<Competition> competitionList = setAreasFromDbInCompetitions();
+    public void addAllCompetitions(List<Competition> competitionList) {
         for (Competition competition : competitionList) {
             addCompetition(competition);
         }
-    }
-
-    private List<Competition> setAreasFromDbInCompetitions() {
-        List<Area> allAreas = areaDao.getAllAreas();
-        List<Competition> competitionList = footballDataClient.getAllCompetitions();
-        for (Competition competition : competitionList) {
-            for (Area area : allAreas) {
-                if (compareArea(competition, area)) {
-                    competition.setArea(area);
-                }
-            }
-        }
-        return competitionList;
-    }
-
-    private static boolean compareArea(Competition competition, Area area) {
-        return competition.getArea().getId().equals(area.getId());
     }
 }

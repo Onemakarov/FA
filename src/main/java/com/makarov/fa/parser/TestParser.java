@@ -19,9 +19,10 @@ public class TestParser {
         this.areaService = areaService;
     }
 
-    @Scheduled(fixedRate = 5000000)
-    public void test() {
-        areaService.addAllAreas();
-        competitionService.addAllCompetitions();
-    }
+    //@Scheduled(fixedRate = 5000000)
+    //public void test() {
+        //areaService.addAllAreas();
+        //competitionService.addAllCompetitions();
+        //System.out.println(competitionService.getCompetitionById(2021L));
+    //}
 }

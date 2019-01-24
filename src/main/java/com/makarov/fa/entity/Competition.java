@@ -11,7 +11,7 @@ import java.util.List;
 public class Competition extends AuditEntity {
 
     @Id
-    private long Id;
+    private Long Id;
 
     @ManyToOne(cascade = CascadeType.ALL)
     private Area area;
