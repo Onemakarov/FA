@@ -41,6 +41,7 @@ public class CompetitionDao {
     public void addAllCompetitions(List<Competition> competitionList) {
         for (Competition competition : competitionList) {
             addCompetition(competition);
+            System.out.println();
         }
     }
 }

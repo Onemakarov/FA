@@ -5,7 +5,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Data
-public class MatchResours {
+public class AreaResource {
 
-    private long id;
+    private Long id;
+
+    private String name;
 }

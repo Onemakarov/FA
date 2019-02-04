@@ -2,7 +2,6 @@ package com.makarov.fa.dao;
 
 import com.makarov.fa.entity.Area;
 import com.makarov.fa.entity.Competition;
-import com.makarov.fa.entity.CompetitionList;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

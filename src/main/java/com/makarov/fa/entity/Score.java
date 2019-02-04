@@ -1,8 +1,11 @@
 package com.makarov.fa.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
 @Entity(name = "scores")
+@Data
 public class Score extends AuditEntity {
 
     @Id
@@ -15,16 +18,15 @@ public class Score extends AuditEntity {
     @Column(name = "duration")
     private String duration;
 
-    @Column(name = "full_time")
-    private String fullTime;
+    @OneToOne
+    private ScoreState fullTime;
 
-    @Column(name = "half_time")
-    private String halfTime;
+    @OneToOne
+    private ScoreState halfTime;
 
-    @Column(name = "extra_time")
-    private String extraTime;
+    @OneToOne
+    private ScoreState extraTime;
 
-    @Column(name = "penalties")
-    private String penalties;
-
+    @OneToOne
+    private ScoreState penalties;
 }

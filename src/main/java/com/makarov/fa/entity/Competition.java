@@ -1,5 +1,9 @@
 package com.makarov.fa.entity;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import jdk.nashorn.internal.runtime.regexp.joni.SearchAlgorithm;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -13,7 +17,7 @@ public class Competition extends AuditEntity {
     @Id
     private Long Id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Area area;
 
     @Column(name = "name")
@@ -30,8 +34,4 @@ public class Competition extends AuditEntity {
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Season> seasons;
-
-    public Area getArea() {
-        return area;
-    }
 }

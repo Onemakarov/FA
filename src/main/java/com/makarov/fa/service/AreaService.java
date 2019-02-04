@@ -1,12 +1,17 @@
 package com.makarov.fa.service;
 
 import com.makarov.fa.apiclient.FootballDataClient;
+import com.makarov.fa.converter.AreaConverter;
 import com.makarov.fa.dao.AreaDao;
 import com.makarov.fa.entity.Area;
-import com.makarov.fa.entity.AreaList;
+import com.makarov.fa.resourses.AreaResource;
+import com.makarov.fa.resourses.AreaResourceList;
+import com.makarov.fa.resourses.CompetitionResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class AreaService {
@@ -15,10 +20,13 @@ public class AreaService {
 
     private FootballDataClient footballDataClient;
 
+    private AreaConverter areaConverter;
+
     @Autowired
-    public AreaService(AreaDao areaDao, FootballDataClient footballDataClient) {
+    public AreaService(AreaDao areaDao, FootballDataClient footballDataClient, AreaConverter areaConverter) {
         this.areaDao = areaDao;
         this.footballDataClient = footballDataClient;
+        this.areaConverter = areaConverter;
     }
 
     @Transactional
@@ -27,12 +35,12 @@ public class AreaService {
     }
 
     @Transactional
-    public void addAllAreas() {
+    public void addAllAreas(List<CompetitionResource> competitionResources) {
 
-        AreaList areaList = footballDataClient.getAreaList(footballDataClient.getAllCompetitions());
+        AreaResourceList areaList = footballDataClient.getAreaList(competitionResources);
 
-        for (Area area : areaList.getAreaList()) {
-            areaDao.addArea(area);
+        for (AreaResource area : areaList.getAreaResourceList()) {
+            areaDao.addArea(areaConverter.toEntity(area));
         }
     }
 }

@@ -1,9 +1,6 @@
 package com.makarov.fa.apiclient;
 
-import com.makarov.fa.entity.Area;
-import com.makarov.fa.entity.AreaList;
-import com.makarov.fa.entity.Competition;
-import com.makarov.fa.entity.CompetitionList;
+import com.makarov.fa.resourses.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -14,7 +11,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import static com.makarov.fa.apiclient.FootballDataPathValues.*;
 
 @Component
 public class FootballDataClient {
@@ -23,44 +23,55 @@ public class FootballDataClient {
 
     private RestTemplate restTemplate;
 
+    private final List<Long> competitionsId = Arrays.asList(2018L, 2019L, 2021L);
+
     @Autowired
     public FootballDataClient(@Value("${footballDataUrl}") String footballDataUrl, RestTemplate restTemplate) {
         this.footballDataUrl = footballDataUrl;
         this.restTemplate = restTemplate;
     }
 
-    public List<Competition> getAllCompetitions(){
+    public List<CompetitionResource> getAllCompetitions(){
 
-        String url = "/competitions";
+        List<CompetitionResource> competitionResources = new ArrayList<>();
 
-        ResponseEntity<CompetitionList> competitionList = restTemplate
-                .exchange(footballDataUrl + url, HttpMethod.GET, getHttpEntityWithAuthToken(), CompetitionList.class);
-
-        return competitionList.getBody().getCompetitionList();
+        for (Long competitionId : competitionsId) {
+            competitionResources.add(getCompetitionById(competitionId));
+        }
+        return  competitionResources;
     }
 
-    public Competition getCompetitionById(String id) {
+    public CompetitionResource getCompetitionById(Long id) {
 
-        String url = "/competitions/" + id;
+        String url = footballDataUrl + "/competitions/" + id;
 
-        ResponseEntity<Competition> competition = restTemplate
-                .exchange(footballDataUrl + url, HttpMethod.GET, getHttpEntityWithAuthToken(), Competition.class);
+        ResponseEntity<CompetitionResource> competition = restTemplate
+                .exchange(url, HttpMethod.GET, getHttpEntityWithAuthToken(), CompetitionResource.class);
 
         return competition.getBody();
     }
 
-    public AreaList getAreaList(List<Competition> competitionList) {
+    public AreaResourceList getAreaList(List<CompetitionResource> competitionResources) {
 
-        List<Area> areaArrayList = new ArrayList<>();
-        AreaList areaList = new AreaList();
+        List<AreaResource> areaArrayList = new ArrayList<>();
+        AreaResourceList areaList = new AreaResourceList();
 
-        for (Competition competition : competitionList) {
-            if (!areaArrayList.contains(competition.getArea())) {
-                areaArrayList.add(competition.getArea());
+        for (CompetitionResource competitionResource : competitionResources) {
+            if (!areaArrayList.contains(competitionResource.getArea())) {
+                areaArrayList.add(competitionResource.getArea());
             }
         }
-        areaList.setAreaList(areaArrayList);
+        areaList.setAreaResourceList(areaArrayList);
         return areaList;
+    }
+
+    public List<SeasonResource> getSeasons(List<CompetitionResource> competitionResources) {
+
+        List<SeasonResource> seasons = new ArrayList<>();
+        for (CompetitionResource competition : competitionResources) {
+            seasons.addAll(competition.getSeasons());
+        }
+        return seasons;
     }
 
     private HttpEntity<String> getHttpEntityWithAuthToken() {
@@ -68,5 +79,39 @@ public class FootballDataClient {
         HttpHeaders headers = new HttpHeaders();
         headers.set("X-Auth-Token", "88b92c5a081d4412ba4eae1db4741c56");
         return new HttpEntity<String>("parameters", headers);
+    }
+
+    public List<TeamResource> getAllTeams() {
+
+        List<TeamResource> teamResources = new ArrayList<>();
+
+        for (Long competitionId : competitionsId) {
+
+            String url = footballDataUrl + "competitions/" + competitionId + TEAM.getPath();
+
+            ResponseEntity<TeamResourceList> listResponseEntity = restTemplate
+                    .exchange(url, HttpMethod.GET, getHttpEntityWithAuthToken(), TeamResourceList.class);
+
+            teamResources.addAll(listResponseEntity.getBody().getTeamResourceList());
+        }
+
+        return teamResources;
+    }
+
+    public List<MatchResource> getAllMatches() {
+
+        List<MatchResource> matchResources = new ArrayList<>();
+
+        for (Long competitionId : competitionsId) {
+
+            String url = footballDataUrl + "competitions/" + competitionId + MATCH.getPath();
+
+            ResponseEntity<MatchResourceList> listResponseEntity = restTemplate
+                    .exchange(url, HttpMethod.GET, getHttpEntityWithAuthToken(), MatchResourceList.class);
+
+            matchResources.addAll(listResponseEntity.getBody().getMatchResourceList());
+        }
+
+        return matchResources;
     }
 }

@@ -4,7 +4,7 @@ import lombok.Getter;
 
 public enum FootballDataPathValues {
 
-    COMPETITION("competitions"), MATCH("matches");
+    COMPETITION("/competitions/"), MATCH("/matches/"), TEAM("/teams/");
 
 
     @Getter

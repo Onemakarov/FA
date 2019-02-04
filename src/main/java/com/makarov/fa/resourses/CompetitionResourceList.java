@@ -1,19 +1,18 @@
-package com.makarov.fa.entity;
+package com.makarov.fa.resourses;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.makarov.fa.entity.Competition;
 import lombok.Getter;
 import lombok.ToString;
 
 import java.util.List;
 
 @ToString
-public class CompetitionList {
+public class CompetitionResourceList {
 
     @Getter
     @JsonProperty
     @JsonAlias(value = "competitions")
-    private List<Competition> competitionList;
-
-
+    private List<CompetitionResource> competitionResourceList;
 }
