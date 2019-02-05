@@ -1,7 +1,6 @@
 package com.makarov.fa.init;
 
 import com.makarov.fa.apiclient.FootballDataClient;
-import com.makarov.fa.entity.Match;
 import com.makarov.fa.resourses.CompetitionResource;
 import com.makarov.fa.resourses.MatchResource;
 import com.makarov.fa.resourses.TeamResource;
@@ -10,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -47,11 +47,12 @@ public class InitializationService implements ApplicationListener<ApplicationRea
 
         List<MatchResource> matchResources = footballDataClient.getAllMatches();
 
-        areaService.addAllAreas(competitionResources);
-        seasonService.addAllSeasons(competitionResources);
+        footballDataClient.setCompetitionInMatch(competitionResources, matchResources);
+//        areaService.addAllAreas(competitionResources);
+//        seasonService.addAllSeasons(competitionResources);
         competitionService.addAllCompetitions(competitionResources);
-        teamService.addAllTeam(teamResources);
-        matchService.addMatches(matchResources);
+//        teamService.addAllTeam(teamResources);
+//        matchService.addMatches(matchResources);
         System.out.println();
     }
 }

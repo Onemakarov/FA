@@ -114,4 +114,15 @@ public class FootballDataClient {
 
         return matchResources;
     }
+
+    public void setCompetitionInMatch(List<CompetitionResource> competitionResources, List<MatchResource> matchResources) {
+
+        for (CompetitionResource competitionResource : competitionResources) {
+            for (MatchResource matchResource : matchResources) {
+                if (competitionResource.getCurrentSeason().getId().equals(matchResource.getSeason().getId())) {
+                    matchResource.setCompetition(competitionResource);
+                }
+            }
+        }
+    }
 }

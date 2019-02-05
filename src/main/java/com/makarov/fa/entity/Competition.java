@@ -17,8 +17,11 @@ public class Competition extends AuditEntity {
     @Id
     private Long Id;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Area area;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Season currentSeason;
 
     @Column(name = "name")
     private String name;

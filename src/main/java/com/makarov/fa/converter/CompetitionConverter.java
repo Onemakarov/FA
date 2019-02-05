@@ -13,9 +13,12 @@ public class CompetitionConverter {
 
     private final AreaConverter areaConverter;
 
+    private final SeasonConverter seasonConverter;
+
     @Autowired
-    public CompetitionConverter(AreaConverter areaConverter) {
+    public CompetitionConverter(AreaConverter areaConverter, SeasonConverter seasonConverter) {
         this.areaConverter = areaConverter;
+        this.seasonConverter = seasonConverter;
     }
 
     public Competition toEntity(CompetitionResource competitionResource) {
@@ -25,6 +28,7 @@ public class CompetitionConverter {
         competition.setId(competitionResource.getId());
         competition.setName(competitionResource.getName());
         competition.setArea(areaConverter.toEntity(competitionResource.getArea()));
+        competition.setCurrentSeason(seasonConverter.toEntity(competitionResource.getCurrentSeason()));
         competition.setCode(competitionResource.getCode());
         competition.setEmblemUrl(competitionResource.getEmblemUrl());
         competition.setPlan(competitionResource.getPlan());
