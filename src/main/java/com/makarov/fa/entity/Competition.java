@@ -20,9 +20,6 @@ public class Competition extends AuditEntity {
     @ManyToOne(cascade = CascadeType.ALL)
     private Area area;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Season currentSeason;
-
     @Column(name = "name")
     private String name;
 

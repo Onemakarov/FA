@@ -33,13 +33,13 @@ public class CompetitionService {
     }
 
     @Transactional
-    public void addCompetition(CompetitionResource competitionResource) {
-        competitionDao.addCompetition(competitionConverter.toEntity(competitionResource));
+    public void addCompetition(Competition competition) {
+        competitionDao.addCompetition(competition);
     }
 
     @Transactional
-    public void addAllCompetitions(List<CompetitionResource> competitionResources) {
-        competitionDao.addAllCompetitions(competitionConverter.toEntityList(competitionResources));
+    public void addAllCompetitions(List<Competition> competitions) {
+        competitionDao.addAllCompetitions(competitions);
     }
 
     @Transactional

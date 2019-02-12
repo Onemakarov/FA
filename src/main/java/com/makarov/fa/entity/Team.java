@@ -14,7 +14,7 @@ public class Team {
     @Id
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Area area;
 
     @ManyToMany

@@ -14,8 +14,6 @@ public class CompetitionResource {
 
     private AreaResource area;
 
-    private SeasonResource currentSeason;
-
     private String name;
 
     private String code;

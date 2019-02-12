@@ -36,22 +36,10 @@ public class SeasonService {
     }
 
     @Transactional
-    public void addAllSeasons(List<CompetitionResource> competitionResources) {
+    public void addAllSeasons(List<Season> seasons) {
 
-        List<Season> seasonList = seasonConverter.toEntityList(getSeasonsResources(competitionResources));
-
-        for (Season season : seasonList) {
+        for (Season season : seasons) {
             seasonDao.addSeason(season);
         }
-    }
-
-    private List<SeasonResource> getSeasonsResources(List<CompetitionResource> competitionResources) {
-
-        List<SeasonResource> seasonResources = new ArrayList<>();
-
-        for (CompetitionResource competitionResource : competitionResources) {
-            seasonResources.addAll(competitionResource.getSeasons());
-        }
-        return seasonResources;
     }
 }

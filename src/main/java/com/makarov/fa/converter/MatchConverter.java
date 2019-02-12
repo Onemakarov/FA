@@ -5,6 +5,9 @@ import com.makarov.fa.resourses.MatchResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class MatchConverter {
 
@@ -36,5 +39,16 @@ public class MatchConverter {
         matchEntity.setScore(scoreConverter.toEntity(matchResource.getScore()));
 
         return matchEntity;
+    }
+
+    public List<Match> toEntityList(List<MatchResource> matchResources) {
+
+        List<Match> matches = new ArrayList<>();
+
+        for (MatchResource matchResource : matchResources) {
+            matches.add(toEntity(matchResource));
+        }
+
+        return matches;
     }
 }

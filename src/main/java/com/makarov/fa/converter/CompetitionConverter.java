@@ -28,10 +28,10 @@ public class CompetitionConverter {
         competition.setId(competitionResource.getId());
         competition.setName(competitionResource.getName());
         competition.setArea(areaConverter.toEntity(competitionResource.getArea()));
-        competition.setCurrentSeason(seasonConverter.toEntity(competitionResource.getCurrentSeason()));
         competition.setCode(competitionResource.getCode());
         competition.setEmblemUrl(competitionResource.getEmblemUrl());
         competition.setPlan(competitionResource.getPlan());
+        competition.setSeasons(seasonConverter.toEntityList(competitionResource.getSeasons()));
 
         return competition;
     }

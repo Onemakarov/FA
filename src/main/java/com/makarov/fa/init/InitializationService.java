@@ -1,15 +1,17 @@
 package com.makarov.fa.init;
 
 import com.makarov.fa.apiclient.FootballDataClient;
-import com.makarov.fa.resourses.CompetitionResource;
-import com.makarov.fa.resourses.MatchResource;
-import com.makarov.fa.resourses.TeamResource;
+import com.makarov.fa.converter.CompetitionConverter;
+import com.makarov.fa.converter.MatchConverter;
+import com.makarov.fa.converter.TeamConverter;
+import com.makarov.fa.entity.Competition;
+import com.makarov.fa.entity.Match;
+import com.makarov.fa.entity.Team;
 import com.makarov.fa.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,29 +30,37 @@ public class InitializationService implements ApplicationListener<ApplicationRea
 
     private final MatchService matchService;
 
+    private final CompetitionConverter competitionConverter;
+
+    private final MatchConverter matchConverter;
+
+    private final TeamConverter teamConverter;
+
     @Autowired
-    public InitializationService(AreaService areaService, CompetitionService competitionService, SeasonService seasonService, TeamService teamService, FootballDataClient footballDataClient, MatchService matchService) {
+    public InitializationService(AreaService areaService, CompetitionService competitionService, SeasonService seasonService, TeamService teamService, FootballDataClient footballDataClient, MatchService matchService, CompetitionConverter competitionConverter, MatchConverter matchConverter, TeamConverter teamConverter) {
         this.areaService = areaService;
         this.competitionService = competitionService;
         this.seasonService = seasonService;
         this.teamService = teamService;
         this.footballDataClient = footballDataClient;
         this.matchService = matchService;
+        this.competitionConverter = competitionConverter;
+        this.matchConverter = matchConverter;
+        this.teamConverter = teamConverter;
     }
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
 
-        List<CompetitionResource> competitionResources = footballDataClient.getAllCompetitions();
+        List<Competition> competitions = competitionConverter.toEntityList(footballDataClient.getAllCompetitions());
 
-        List<TeamResource> teamResources = footballDataClient.getAllTeams();
+//        List<Match> matches = matchConverter.toEntityList(footballDataClient.getAllMatches());
 
-        List<MatchResource> matchResources = footballDataClient.getAllMatches();
+//        List<Team> teams = teamConverter.toEntityList(footballDataClient.getAllTeams());
 
-        footballDataClient.setCompetitionInMatch(competitionResources, matchResources);
 //        areaService.addAllAreas(competitionResources);
 //        seasonService.addAllSeasons(competitionResources);
-        competitionService.addAllCompetitions(competitionResources);
+        competitionService.addAllCompetitions(competitions);
 //        teamService.addAllTeam(teamResources);
 //        matchService.addMatches(matchResources);
         System.out.println();

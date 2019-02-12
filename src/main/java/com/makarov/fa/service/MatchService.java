@@ -2,6 +2,7 @@ package com.makarov.fa.service;
 
 import com.makarov.fa.converter.MatchConverter;
 import com.makarov.fa.dao.MatchDao;
+import com.makarov.fa.entity.Match;
 import com.makarov.fa.resourses.MatchResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,16 +25,16 @@ public class MatchService {
     }
 
     @Transactional
-    public void addMatch(MatchResource matchResource) {
+    public void addMatch(Match match) {
 
-        matchDao.addMatch(matchConverter.toEntity(matchResource));
+        matchDao.addMatch(match);
     }
 
     @Transactional
-    public void addMatches(List<MatchResource> matchResources) {
+    public void addMatches(List<Match> matches) {
 
-        for (MatchResource matchResource : matchResources) {
-            addMatch(matchResource);
+        for (Match match : matches) {
+            addMatch(match);
         }
     }
 }

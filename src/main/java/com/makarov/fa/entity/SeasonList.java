@@ -12,8 +12,8 @@ import java.util.List;
 @Data
 public class SeasonList {
 
-    //@JsonProperty
-    //@JsonAlias(value = "seasons")
+    @JsonProperty
+    @JsonAlias(value = "seasons")
     private List<Season> seasonList;
 
     public List<Season> getSeasonList() {
