@@ -18,12 +18,13 @@ public class AreaDao {
         entityManager.persist(area);
     }
 
-    public void addCompetition(Competition competition) {
-        entityManager.persist(competition);
-    }
-
     public List<Area> getAllAreas() {
         return entityManager.createQuery("SELECT a FROM Area a", Area.class)
                 .getResultList();
+    }
+
+    public Area getAreaById(Long areaId) {
+
+        return entityManager.find(Area.class, areaId);
     }
 }

@@ -18,15 +18,15 @@ public class Score extends AuditEntity {
     @Column(name = "duration")
     private String duration;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private ScoreState fullTime;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private ScoreState halfTime;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private ScoreState extraTime;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private ScoreState penalties;
 }

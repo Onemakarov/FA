@@ -13,13 +13,10 @@ import java.util.List;
 @Component
 public class TeamConverter {
 
-    private final CompetitionConverter competitionConverter;
-
     private final AreaConverter areaConverter;
 
     @Autowired
-    public TeamConverter(CompetitionConverter competitionConverter, AreaConverter areaConverter) {
-        this.competitionConverter = competitionConverter;
+    public TeamConverter(AreaConverter areaConverter) {
         this.areaConverter = areaConverter;
     }
 
@@ -32,9 +29,8 @@ public class TeamConverter {
         team.setShortName(teamResource.getShortName());
         team.setCrestUrl(teamResource.getCrestUrl());
         team.setTla(teamResource.getTla());
-//        team.setActiveCompetitions(competitionConverter.toEntityList(teamResource.getActiveCompetitions()));
         team.setAddress(teamResource.getAddress());
-        team.setArea(areaConverter.toEntity(teamResource.getArea()));
+//        team.setArea(areaConverter.toEntity(teamResource.getArea()));
         team.setClubColors(teamResource.getClubColors());
         team.setEmail(teamResource.getEmail());
         team.setFounded(teamResource.getFounded());

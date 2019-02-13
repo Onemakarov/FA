@@ -30,7 +30,7 @@ public class CompetitionDao {
                 .getResultList();
     }
 
-    public Competition getCompetitionById(long competitionId) {
+    public Competition getCompetitionById(Long competitionId) {
         return entityManager.find(Competition.class, competitionId);
     }
 
@@ -38,7 +38,7 @@ public class CompetitionDao {
         entityManager.persist(competition);
     }
 
-    public void addAllCompetitions(List<Competition> competitionList) {
+    public void addCompetitions(List<Competition> competitionList) {
         for (Competition competition : competitionList) {
             addCompetition(competition);
             System.out.println();

@@ -29,7 +29,6 @@ public class MatchConverter {
         Match matchEntity = new Match();
 
         matchEntity.setId(matchResource.getId());
-        matchEntity.setCompetition(competitionConverter.toEntity(matchResource.getCompetition()));
         matchEntity.setSeason(seasonConverter.toEntity(matchResource.getSeason()));
         matchEntity.setUtcDate(matchResource.getUtcDate());
         matchEntity.setStatus(matchResource.getStatus());

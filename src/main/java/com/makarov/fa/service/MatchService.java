@@ -15,26 +15,35 @@ public class MatchService {
 
     private final MatchDao matchDao;
 
-    private final MatchConverter matchConverter;
-
     @Autowired
-    public MatchService(MatchDao matchDao, MatchConverter matchConverter) {
-
+    public MatchService(MatchDao matchDao) {
         this.matchDao = matchDao;
-        this.matchConverter = matchConverter;
     }
 
     @Transactional
     public void addMatch(Match match) {
-
         matchDao.addMatch(match);
     }
 
     @Transactional
     public void addMatches(List<Match> matches) {
-
         for (Match match : matches) {
             addMatch(match);
         }
+    }
+
+    @Transactional
+    public Match getMatchById(Long matchId) {
+        return matchDao.getMachById(matchId);
+    }
+
+    @Transactional
+    public List<Match> getMatchesBySeasonId(Long seasonId) {
+        return matchDao.getAllMatchesBySeasonId(seasonId);
+    }
+
+    @Transactional
+    public List<Match> getAllMatches() {
+        return matchDao.getAllMatches();
     }
 }

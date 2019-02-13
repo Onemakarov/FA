@@ -42,4 +42,14 @@ public class SeasonService {
             seasonDao.addSeason(season);
         }
     }
+
+    @Transactional
+    public Season getSeasonById(Long seasonId) {
+        return seasonDao.getSeasonById(seasonId);
+    }
+
+    @Transactional
+    public List<Season> getAllSeasons() {
+        return seasonDao.getAllSeasons();
+    }
 }

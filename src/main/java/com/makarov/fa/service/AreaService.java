@@ -35,12 +35,19 @@ public class AreaService {
     }
 
     @Transactional
-    public void addAllAreas(List<CompetitionResource> competitionResources) {
-
-        AreaResourceList areaList = footballDataClient.getAreaList(competitionResources);
-
-        for (AreaResource area : areaList.getAreaResourceList()) {
-            areaDao.addArea(areaConverter.toEntity(area));
+    public void addAreas(List<Area> areas) {
+        for (Area area : areas) {
+            addArea(area);
         }
+    }
+
+    @Transactional
+    public Area getAreaById(Long id) {
+        return areaDao.getAreaById(id);
+    }
+
+    @Transactional
+    public List<Area> getAllAreas() {
+        return areaDao.getAllAreas();
     }
 }

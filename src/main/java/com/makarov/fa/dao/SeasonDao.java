@@ -17,15 +17,9 @@ public class SeasonDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-    private final FootballDataClient footballDataClient;
-
-    @Autowired
-    public SeasonDao(FootballDataClient footballDataClient) {
-        this.footballDataClient = footballDataClient;
-    }
-
-    public List<Competition> getAllSeasons() {
-        return null;
+    public List<Season> getAllSeasons() {
+        return entityManager.createQuery("select s from Season s", Season.class)
+                .getResultList();
     }
 
     public Season getSeasonById(long seasonId) {

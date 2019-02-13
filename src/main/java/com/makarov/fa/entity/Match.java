@@ -40,7 +40,7 @@ public class Match extends AuditEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdated;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Score score;
 
 

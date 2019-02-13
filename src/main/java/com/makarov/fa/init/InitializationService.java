@@ -54,15 +54,15 @@ public class InitializationService implements ApplicationListener<ApplicationRea
 
         List<Competition> competitions = competitionConverter.toEntityList(footballDataClient.getAllCompetitions());
 
-//        List<Match> matches = matchConverter.toEntityList(footballDataClient.getAllMatches());
+        List<Match> matches = matchConverter.toEntityList(footballDataClient.getAllMatches());
 
-//        List<Team> teams = teamConverter.toEntityList(footballDataClient.getAllTeams());
+        List<Team> teams = teamConverter.toEntityList(footballDataClient.getAllTeams());
 
-//        areaService.addAllAreas(competitionResources);
+//        areaService.addAreas(competitionResources);
 //        seasonService.addAllSeasons(competitionResources);
-        competitionService.addAllCompetitions(competitions);
-//        teamService.addAllTeam(teamResources);
-//        matchService.addMatches(matchResources);
+        competitionService.addCompetitions(competitions);
+        teamService.addAllTeam(teams);
+        matchService.addMatches(matches);
         System.out.println();
     }
 }
