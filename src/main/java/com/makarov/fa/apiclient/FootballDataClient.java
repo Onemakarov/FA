@@ -23,7 +23,7 @@ public class FootballDataClient {
 
     private RestTemplate restTemplate;
 
-    private final List<Long> competitionsId = Arrays.asList(2018L, 2019L, 2021L);
+    private final List<Long> competitionsId = Arrays.asList(2000L, 2001L ,2002L, 2003L, 2013L, 2014L, 2015L, 2016L, 2017L, 2018L, 2019L, 2021L);
 
     @Autowired
     public FootballDataClient(@Value("${footballDataUrl}") String footballDataUrl, RestTemplate restTemplate) {

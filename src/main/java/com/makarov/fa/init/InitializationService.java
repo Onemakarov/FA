@@ -18,11 +18,7 @@ import java.util.List;
 @Component
 public class InitializationService implements ApplicationListener<ApplicationReadyEvent> {
 
-    private final AreaService areaService;
-
     private final CompetitionService competitionService;
-
-    private final SeasonService seasonService;
 
     private final TeamService teamService;
 
@@ -37,10 +33,8 @@ public class InitializationService implements ApplicationListener<ApplicationRea
     private final TeamConverter teamConverter;
 
     @Autowired
-    public InitializationService(AreaService areaService, CompetitionService competitionService, SeasonService seasonService, TeamService teamService, FootballDataClient footballDataClient, MatchService matchService, CompetitionConverter competitionConverter, MatchConverter matchConverter, TeamConverter teamConverter) {
-        this.areaService = areaService;
+    public InitializationService(CompetitionService competitionService, TeamService teamService, FootballDataClient footballDataClient, MatchService matchService, CompetitionConverter competitionConverter, MatchConverter matchConverter, TeamConverter teamConverter) {
         this.competitionService = competitionService;
-        this.seasonService = seasonService;
         this.teamService = teamService;
         this.footballDataClient = footballDataClient;
         this.matchService = matchService;
@@ -60,9 +54,13 @@ public class InitializationService implements ApplicationListener<ApplicationRea
 
 //        areaService.addAreas(competitionResources);
 //        seasonService.addAllSeasons(competitionResources);
-        competitionService.addCompetitions(competitions);
+        parseCompetitions(competitions);
         teamService.addAllTeam(teams);
         matchService.addMatches(matches);
         System.out.println();
+    }
+
+    private void parseCompetitions(List<Competition> competitions) {
+        competitionService.addCompetitions(competitions);
     }
 }

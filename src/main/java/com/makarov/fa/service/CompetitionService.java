@@ -37,4 +37,9 @@ public class CompetitionService {
     public List<Competition> getAllCompetitions() {
         return competitionDao.getAllCompetitions();
     }
+
+    @Transactional
+    public boolean isNotAdded() {
+        return competitionDao.getAllCompetitions().isEmpty();
+    }
 }

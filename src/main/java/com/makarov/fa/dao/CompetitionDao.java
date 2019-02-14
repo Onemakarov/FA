@@ -15,16 +15,6 @@ public class CompetitionDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-    private final AreaDao areaDao;
-
-    private final FootballDataClient footballDataClient;
-
-    @Autowired
-    public CompetitionDao(AreaDao areaDao, FootballDataClient footballDataClient) {
-        this.areaDao = areaDao;
-        this.footballDataClient = footballDataClient;
-    }
-
     public List<Competition> getAllCompetitions() {
         return entityManager.createQuery("SELECT c FROM Competition c", Competition.class)
                 .getResultList();
