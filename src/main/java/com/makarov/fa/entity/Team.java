@@ -53,8 +53,8 @@ public class Team {
     @Column(name = "venue")
     private String venue;
 
-    @ManyToMany
-    private List<Player> squad;
+    @OneToOne
+    private Squad squad;
 
     @Column(name = "lastUpdated")
     @Temporal(TemporalType.TIMESTAMP)

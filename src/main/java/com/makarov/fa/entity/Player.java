@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity(name = "players")
 @Data
@@ -40,4 +41,7 @@ public class Player {
     @Column(name = "last_updated")
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdated;
+
+    @ManyToMany(mappedBy = "players")
+    private List<Squad> squads;
 }

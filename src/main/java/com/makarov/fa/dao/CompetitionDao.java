@@ -1,15 +1,14 @@
 package com.makarov.fa.dao;
 
-import com.makarov.fa.apiclient.FootballDataClient;
-import com.makarov.fa.entity.Area;
 import com.makarov.fa.entity.Competition;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
+@Log4j2
 public class CompetitionDao {
 
     @PersistenceContext

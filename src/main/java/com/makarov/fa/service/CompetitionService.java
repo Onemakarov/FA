@@ -25,7 +25,9 @@ public class CompetitionService {
 
     @Transactional
     public void addCompetitions(List<Competition> competitions) {
-        competitionDao.addCompetitions(competitions);
+        for (Competition competition : competitions) {
+            addCompetition(competition);
+        };
     }
 
     @Transactional
