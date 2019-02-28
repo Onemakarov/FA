@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 @Data
@@ -44,6 +45,11 @@ public class PlayerResource {
 
         PlayerResource guest = (PlayerResource) obj;
 
-        return id.equals(guest.getId()) || name.equals(guest.getName());
+        return this.id.equals(guest.getId()) || this.name.equals(guest.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }

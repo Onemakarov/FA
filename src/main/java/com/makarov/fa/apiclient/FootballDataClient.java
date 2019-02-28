@@ -1,5 +1,7 @@
 package com.makarov.fa.apiclient;
 
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.makarov.fa.entity.Area;
 import com.makarov.fa.entity.Competition;
 import com.makarov.fa.entity.Team;
@@ -12,12 +14,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.lang.reflect.Array;
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 import static com.makarov.fa.apiclient.FootballDataPathValues.*;
 import static java.util.stream.Collectors.*;
@@ -30,12 +32,15 @@ public class FootballDataClient {
 
     private RestTemplate restTemplate;
 
-    private final List<Long> competitionsId = Arrays.asList(2016L, 2021L);//2000L, 2001L ,2002L, 2003L, 2013L, 2014L, 2015L, 2017L,2018L, 2019L,
+    private final ObjectMapper objectMapper;
+
+    private final List<Long> competitionsId = Arrays.asList(2000L, 2001L ,2002L, 2003L, 2013L, 2014L, 2015L,2016L, 2017L,2018L, 2019L, 2018L, 2021L);//
 
     @Autowired
-    public FootballDataClient(@Value("${footballDataUrl}") String footballDataUrl, RestTemplate restTemplate) {
+    public FootballDataClient(@Value("${footballDataUrl}") String footballDataUrl, RestTemplate restTemplate, ObjectMapper objectMapper) {
         this.footballDataUrl = footballDataUrl;
         this.restTemplate = restTemplate;
+        this.objectMapper = objectMapper;
     }
 
     public List<CompetitionResource> getAllCompetitions(){
@@ -45,15 +50,32 @@ public class FootballDataClient {
         int count = 1;
 
         for (Long competitionId : competitionsId) {
-            if (count % 8 == 0) {
-                waitOneMinute();
-            }
+//            if (count % 8 == 0) {
+//                waitOneMinute();
+//            }
             competitionResources.add(getCompetitionById(competitionId));
             count++;
         }
         log.info("got all competitions");
 
         return  competitionResources;
+    }
+
+    public <T> ResponseEntity<T> getResponseEntity(Class<T> tClass, String url) {
+
+        while (true) {
+            try {
+                ResponseEntity<String> responseEntity = restTemplate
+                        .exchange(url, HttpMethod.GET, getHttpEntityWithAuthToken(), String.class);
+                JavaType javaType = objectMapper.constructType(tClass);
+                return objectMapper.readValue(responseEntity.getBody(), javaType);
+            }catch (HttpClientErrorException.TooManyRequests errorException){
+                log.error(errorException);
+                waitOneMinute();
+            }catch (IOException e) {
+                log.error(e);
+            }
+        }
     }
 
     private void waitOneMinute() {
@@ -69,11 +91,11 @@ public class FootballDataClient {
 
         String url = footballDataUrl + "/competitions/" + id;
 
-        ResponseEntity<CompetitionResource> competition = restTemplate
-                .exchange(url, HttpMethod.GET, getHttpEntityWithAuthToken(), CompetitionResource.class);
+        log.info("getting competition id: " + id);
+        CompetitionResource competition = getResponseEntity(CompetitionResource.class, url).getBody();
         log.info("get competition: id = " + id);
 
-        return competition.getBody();
+        return competition;
     }
 
     public AreaResourceList getAreaList(List<CompetitionResource> competitionResources) {
@@ -105,32 +127,24 @@ public class FootballDataClient {
 
         String url = footballDataUrl + TEAM.getPath() + teamId;
 
-        ResponseEntity<PlayerResourceList> playerResourceResponseEntity =
-                restTemplate.exchange(url, HttpMethod.GET, getHttpEntityWithAuthToken(), PlayerResourceList.class);
+        log.info("getting players from team id = " + teamId);
+        List<PlayerResource> players = getResponseEntity(PlayerResourceList.class, url).getBody().getPlayerResourceList();
         log.info("got players from team id = " + teamId);
 
-        return playerResourceResponseEntity.getBody().getPlayerResourceList();
-
+        return players;
     }
 
     public List<PlayerResource> getAllPlayerResources(List<Team> teams) {
 
-        List<PlayerResource> playerResourceList = new ArrayList<>();
+        Set<PlayerResource> playerResources = new HashSet<>();
 
         log.info("getting player resources from teams count: " + teams.size());
-
-        int count = 1;
         for (Team team : teams) {
-            if (count % 8 == 0) {waitOneMinute();}
-            playerResourceList.addAll(getPlayerResourcesByTeamId(team.getId()));
-            count++;
+            playerResources.addAll(getPlayerResourcesByTeamId(team.getId()));
         }
         log.info("got all players");
 
-        return playerResourceList
-                .stream()
-                .distinct()
-                .collect(toList());
+        return (List<PlayerResource>) playerResources;
     }
 
     private HttpEntity<String> getHttpEntityWithAuthToken() {
@@ -142,27 +156,24 @@ public class FootballDataClient {
 
     public List<TeamResource> getAllTeams() {
 
-        List<TeamResource> teamResources = new ArrayList<>();
 
-        int count = 0;
+        return teamResources;
+    }
+
+    public TeamResource getTeamByCompetitionId(Long competitionId) {
+
+        List<TeamResource> teamResources = new ArrayList<>();
 
         for (Long competitionId : competitionsId) {
 
-            if (count % 8 == 0) {waitOneMinute();}
-
             String url = footballDataUrl + "competitions/" + competitionId + TEAM.getPath();
 
-            ResponseEntity<TeamResourceList> listResponseEntity = restTemplate
-                    .exchange(url, HttpMethod.GET, getHttpEntityWithAuthToken(), TeamResourceList.class);
 
-            teamResources.addAll(listResponseEntity.getBody().getTeamResourceList());
+            teamResources.addAll(getResponseEntity(TeamResource.class, url).getBody();
             log.info("get all teams from competition id = " + competitionId);
-            count++;
         }
         log.info("got all teams from competitions ids = " + competitionsId);
-        waitOneMinute();
 
-        return teamResources;
     }
 
     public List<MatchResource> getAllMatches() {
