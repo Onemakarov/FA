@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.makarov.fa.entity.Area;
 import com.makarov.fa.entity.Competition;
+import com.makarov.fa.entity.Player;
 import com.makarov.fa.entity.Team;
 import com.makarov.fa.resourses.*;
 import lombok.extern.log4j.Log4j2;
@@ -33,7 +34,7 @@ public class FootballDataClient {
 
     private final ObjectMapper objectMapper;
 
-    private final List<Long> competitionsId = Arrays.asList(2019L, 2018L, 2021L);//2000L, 2001L ,2002L, 2003L, 2013L, 2014L, 2015L,2016L, 2017L,
+    private final List<Long> competitionsId = Arrays.asList(2016L, 2018L, 2021L);//2000L, 2001L ,2002L, 2003L, 2013L, 2014L, 2015L,2019L, 2017L,
 
     @Autowired
     public FootballDataClient(@Value("${footballDataUrl}") String footballDataUrl, RestTemplate restTemplate, ObjectMapper objectMapper) {
@@ -110,17 +111,17 @@ public class FootballDataClient {
         return players;
     }
 
-    public List<PlayerResource> getAllPlayerResources(List<Team> teams) {
+    public List<Player> getAllPlayerResourcesFromTeam(List<Team> teams) {
 
-        Set<PlayerResource> playerResources = new HashSet<>();
+        List<Player> players = new ArrayList<>();
 
         log.info("getting player resources from teams count: " + teams.size());
         for (Team team : teams) {
-            playerResources.addAll(getPlayerResourcesByTeamId(team.getId()));
+            players.addAll(team.getSquad().getPlayers());
         }
         log.info("got all players");
 
-        return new ArrayList<>(playerResources);
+        return players;
     }
 
     private List<TeamResource> getTeamsByCompetitionId(Long competitionId) {
@@ -133,7 +134,7 @@ public class FootballDataClient {
         return teams.getTeamResourceList();
     }
 
-    public List<TeamResource> getAllTeams() {
+    private List<TeamResource> getAllTeamsFromCompetitions() {
 
         List<TeamResource> teamResources = new ArrayList<>();
 
@@ -142,6 +143,34 @@ public class FootballDataClient {
             teamResources.addAll(getTeamsByCompetitionId(competitionId));
         }
         log.info("get all teams from competitions: ids = " + competitionsId);
+        return teamResources;
+    }
+
+    private List<Long> getAllTeamIds(List<TeamResource> teamResources) {
+
+        List<Long> teamIds = new ArrayList<>();
+
+        for (TeamResource teamResource : teamResources) {
+            teamIds.add(teamResource.getId());
+        }
+        return teamIds;
+    }
+    
+    private TeamResource getTeamById(Long teamId) {
+
+        String url = footballDataUrl + TEAM.getPath() + teamId;
+        
+        return getResource(TeamResource.class, url);
+    }
+
+    public List<TeamResource> getAllTeams() {
+
+        List<TeamResource> teamResources = new ArrayList<>();
+        List<Long> teamIds = getAllTeamIds(getAllTeamsFromCompetitions());
+
+        for (Long teamId : teamIds) {
+            teamResources.add(getTeamById(teamId));
+        }
         return teamResources;
     }
 

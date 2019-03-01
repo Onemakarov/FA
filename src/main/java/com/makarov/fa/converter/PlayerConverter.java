@@ -14,7 +14,6 @@ public class PlayerConverter {
 
         Player playerEntity = new Player();
 
-        playerEntity.setId(playerResource.getId());
         playerEntity.setName(playerResource.getName());
         playerEntity.setFirstName(playerResource.getFirstName());
         playerEntity.setLastName(playerResource.getLastName());

@@ -6,7 +6,6 @@ import com.makarov.fa.converter.MatchConverter;
 import com.makarov.fa.converter.PlayerConverter;
 import com.makarov.fa.converter.TeamConverter;
 import com.makarov.fa.entity.*;
-import com.makarov.fa.resourses.PlayerResource;
 import com.makarov.fa.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -64,14 +63,14 @@ public class InitializationService implements ApplicationListener<ApplicationRea
 
         List<Team> teams = teamConverter.toEntityList(footballDataClient.getAllTeams());
 
-        List<Player> players = playerConverter.toEntityList(footballDataClient.getAllPlayerResources(teams));
+//        List<Player> players = footballDataClient.getAllPlayerResourcesFromTeam(teams);
 
         areaService.addAreas(areas);
         setAreasInCompetitions(competitions);
         competitionService.addCompetitions(competitions);
         teamService.addAllTeam(teams);
         matchService.addMatches(matches);
-        playerService.addPlayers(players);
+//        playerService.addPlayers(players);
         System.out.println();
     }
 

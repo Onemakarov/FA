@@ -14,8 +14,6 @@ import java.util.Objects;
 @Data
 public class PlayerResource {
 
-    private Long id;
-
     private String name;
 
     private String firstName;
@@ -36,20 +34,4 @@ public class PlayerResource {
 
     @JsonAlias(value = "squad")
     private SquadResource squad;
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) {return true;}
-
-        if (obj == null || obj.getClass() != this.getClass()) {return false;}
-
-        PlayerResource guest = (PlayerResource) obj;
-
-        return this.id.equals(guest.getId()) || this.name.equals(guest.getName());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name);
-    }
 }
