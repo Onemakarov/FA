@@ -1,5 +1,6 @@
 package com.makarov.fa.resourses;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.makarov.fa.entity.Area;
 import lombok.Data;
 import org.springframework.stereotype.Component;
@@ -40,6 +41,7 @@ public class TeamResource {
 
     private String venue;
 
+    @JsonAlias(value = "squad")
     private List<PlayerResource> squad;
 
     private Date lastUpdated;

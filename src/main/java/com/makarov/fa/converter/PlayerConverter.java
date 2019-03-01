@@ -35,7 +35,6 @@ public class PlayerConverter {
         for (PlayerResource playerResource : playerResourceList) {
             playersEntityList.add(toEntity(playerResource));
         }
-
         return playersEntityList;
     }
 }

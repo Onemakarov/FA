@@ -11,6 +11,7 @@ import java.util.List;
 public class Player {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "name")

@@ -35,7 +35,7 @@ public class PlayerResource {
     private Date lastUpdated;
 
     @JsonAlias(value = "squad")
-    private List<PlayerResource> squad;
+    private SquadResource squad;
 
     @Override
     public boolean equals(Object obj) {
