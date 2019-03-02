@@ -26,7 +26,6 @@ public class ScoreConverter {
         scoreEntity.setHalfTime(scoreStateConverter.toEntity(scoreResource.getHalfTime()));
         scoreEntity.setExtraTime(scoreStateConverter.toEntity(scoreResource.getExtraTime()));
         scoreEntity.setPenalties(scoreStateConverter.toEntity(scoreResource.getPenalties()));
-
         return scoreEntity;
     }
 }

@@ -1,9 +1,7 @@
 package com.makarov.fa.service;
 
-import com.makarov.fa.converter.TeamConverter;
 import com.makarov.fa.dao.TeamDao;
 import com.makarov.fa.entity.Team;
-import com.makarov.fa.resourses.TeamResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +14,7 @@ public class TeamService {
     private final TeamDao teamDao;
 
     @Autowired
-    public TeamService(TeamDao teamDao, TeamConverter teamConverter) {
+    public TeamService(TeamDao teamDao) {
         this.teamDao = teamDao;
     }
 

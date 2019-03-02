@@ -13,7 +13,6 @@ public class PlayerService {
 
     private final PlayerDao playerDao;
 
-
     @Autowired
     public PlayerService(PlayerDao playerDao) {
         this.playerDao = playerDao;

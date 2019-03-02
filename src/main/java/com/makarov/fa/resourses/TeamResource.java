@@ -1,7 +1,6 @@
 package com.makarov.fa.resourses;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
-import com.makarov.fa.entity.Area;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +10,6 @@ import java.util.List;
 @Component
 @Data
 public class TeamResource {
-
 
     private Long id;
 
@@ -45,5 +43,4 @@ public class TeamResource {
     private List<PlayerResource> squad;
 
     private Date lastUpdated;
-
 }

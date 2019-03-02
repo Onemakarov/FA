@@ -43,6 +43,7 @@ public class Player {
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdated;
 
-    @ManyToMany(mappedBy = "players")
+    @ManyToMany(mappedBy = "players",
+                cascade = CascadeType.ALL)
     private List<Squad> squads;
 }

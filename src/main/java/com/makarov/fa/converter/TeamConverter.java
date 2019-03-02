@@ -1,5 +1,6 @@
 package com.makarov.fa.converter;
 
+import com.makarov.fa.entity.Squad;
 import com.makarov.fa.entity.Team;
 import com.makarov.fa.resourses.TeamResource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +14,11 @@ public class TeamConverter {
 
     private final AreaConverter areaConverter;
 
-    private final SquadConverter squadConverter;
-
     private final PlayerConverter playerConverter;
 
     @Autowired
-    public TeamConverter(AreaConverter areaConverter, SquadConverter squadConverter, PlayerConverter playerConverter) {
+    public TeamConverter(AreaConverter areaConverter, PlayerConverter playerConverter) {
         this.areaConverter = areaConverter;
-        this.squadConverter = squadConverter;
         this.playerConverter = playerConverter;
     }
 
@@ -34,16 +32,19 @@ public class TeamConverter {
         teamEntity.setCrestUrl(teamResource.getCrestUrl());
         teamEntity.setTla(teamResource.getTla());
         teamEntity.setAddress(teamResource.getAddress());
-//        teamEntity.setArea(areaConverter.toEntity(teamResource.getArea()));
+        teamEntity.setArea(areaConverter.toEntity(teamResource.getArea()));
         teamEntity.setClubColors(teamResource.getClubColors());
         teamEntity.setEmail(teamResource.getEmail());
         teamEntity.setFounded(teamResource.getFounded());
         teamEntity.setPhone(teamResource.getPhone());
-        teamEntity.getSquad().setPlayers(playerConverter.toEntityList(teamResource.getSquad()));
+        if (teamResource.getSquad() != null) {
+            Squad squad = new Squad();
+            squad.setPlayers((playerConverter.toEntityList(teamResource.getSquad())));
+            System.out.println(squad.getPlayers());
+            teamEntity.setSquad(squad);
+        }
         teamEntity.setVenue(teamResource.getVenue());
         teamEntity.setWebsite(teamResource.getWebsite());
-        System.out.println(teamEntity);
-
         return teamEntity;
     }
 

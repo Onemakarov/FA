@@ -23,7 +23,6 @@ public class PlayerConverter {
         playerEntity.setPosition(playerResource.getPosition());
         playerEntity.setShirtNumber(playerResource.getShirtNumber());
         playerEntity.setLastUpdated(playerResource.getLastUpdated());
-
         return playerEntity;
     }
 

@@ -1,9 +1,5 @@
 package com.makarov.fa.entity;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeName;
-import jdk.nashorn.internal.runtime.regexp.joni.SearchAlgorithm;
 import lombok.Data;
 
 import javax.persistence.*;

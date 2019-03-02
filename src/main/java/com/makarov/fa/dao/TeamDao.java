@@ -18,7 +18,6 @@ public class TeamDao {
     }
 
     public void addAllTeam(List<Team> teams) {
-
         for (Team team : teams) {
             addTeam(team);
         }

@@ -24,7 +24,6 @@ public class AreaDao {
     }
 
     public Area getAreaById(Long areaId) {
-
         return entityManager.find(Area.class, areaId);
     }
 }

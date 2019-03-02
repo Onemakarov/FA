@@ -18,14 +18,12 @@ public class MatchDao {
     }
 
     public List<Match> getAllMatchesBySeasonId(Long seasonId) {
-
         return entityManager.createQuery("SELECT m FROM Match m WHERE m.season.id = :seasonId", Match.class)
                 .setParameter("seasonId", seasonId)
                 .getResultList();
     }
 
     public List<Match> getAllMatches() {
-
         return entityManager.createQuery("SELECT m FROM Match m ", Match.class)
                 .getResultList();
     }

@@ -13,7 +13,7 @@ public class Squad {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "squad_player",
             joinColumns = {@JoinColumn(name = "squad_id")},

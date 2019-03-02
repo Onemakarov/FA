@@ -2,12 +2,10 @@ package com.makarov.fa.apiclient;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.makarov.fa.entity.Area;
-import com.makarov.fa.entity.Competition;
-import com.makarov.fa.entity.Player;
-import com.makarov.fa.entity.Team;
+import com.makarov.fa.converter.*;
+import com.makarov.fa.entity.*;
 import com.makarov.fa.resourses.*;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -25,55 +23,82 @@ import java.util.concurrent.TimeUnit;
 import static com.makarov.fa.apiclient.FootballDataPathValues.*;
 
 @Component
-@Log4j2
+@Slf4j
 public class FootballDataClient {
 
     private final String footballDataUrl;
+
+    private final String authToken;
 
     private RestTemplate restTemplate;
 
     private final ObjectMapper objectMapper;
 
-    private final List<Long> competitionsId = Arrays.asList(2016L, 2018L, 2021L);//2000L, 2001L ,2002L, 2003L, 2013L, 2014L, 2015L,2019L, 2017L,
+    private final List<Long> competitionsId = Arrays.asList(2021L);//2016L, 2018L,2000L, 2001L ,2002L, 2003L, 2013L, 2014L, 2015L,2019L, 2017L,
+
+    private final CompetitionConverter competitionConverter;
+
+    private final MatchConverter matchConverter;
+
+    private final TeamConverter teamConverter;
 
     @Autowired
-    public FootballDataClient(@Value("${footballDataUrl}") String footballDataUrl, RestTemplate restTemplate, ObjectMapper objectMapper) {
+    public FootballDataClient(@Value("${footballDataUrl}") String footballDataUrl, @Value("${authToken}") String authToken, RestTemplate restTemplate, ObjectMapper objectMapper, AreaConverter areaConverter, CompetitionConverter competitionConverter, MatchConverter matchConverter, PlayerConverter playerConverter, TeamConverter teamConverter) {
         this.footballDataUrl = footballDataUrl;
+        this.authToken = authToken;
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
+        this.competitionConverter = competitionConverter;
+        this.matchConverter = matchConverter;
+        this.teamConverter = teamConverter;
     }
 
-    private <T> T getResource(Class<T> tClass, String url) {
+    private <T> T getResource(String url, Class<T> tClass) {
 
         while (true) {
             try {
+                log.info("start response");
                 ResponseEntity<String> responseEntity = restTemplate
                         .exchange(url, HttpMethod.GET, getHttpEntityWithAuthToken(), String.class);
+                log.info("end response");
                 JavaType javaType = objectMapper.constructType(tClass);
                 return objectMapper.readValue(responseEntity.getBody(), javaType);
             }catch (HttpClientErrorException.TooManyRequests errorException){
-                log.error(errorException);
-                waitOneMinute();
+                log.error(errorException.getMessage());
+                Long secondToWait = Long.valueOf(errorException.getResponseHeaders().getFirst("X-RequestCounter-Reset"));
+                waitSeconds(secondToWait + 2);
             }catch (IOException e) {
-                log.error(e);
+                log.error("got IO exception", e);
             }
         }
     }
 
-    private void waitOneMinute() {
-        log.info("waiting");
+    private void waitSeconds(Long seconds) {
+        log.info("waiting for " + seconds);
+        Thread timerThread = new Thread(() -> {
+            for (long i = seconds; i >= 0; i--) {
+                log.info("wating for " + i + " seconds");
+                try {
+                    TimeUnit.SECONDS.sleep(1L);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }});
+        timerThread.setName("counter");
+        timerThread.start();
         try {
-            TimeUnit.SECONDS.sleep(61);
+            TimeUnit.SECONDS.sleep(seconds);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        log.info("stop waiting");
     }
 
     private HttpEntity<String> getHttpEntityWithAuthToken() {
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set("X-Auth-Token", "88b92c5a081d4412ba4eae1db4741c56");
-        return new HttpEntity<String>("parameters", headers);
+        headers.set("X-Auth-Token", authToken);
+        return new HttpEntity<>("parameters", headers);
     }
 
     private CompetitionResource getCompetitionById(Long id) {
@@ -81,13 +106,12 @@ public class FootballDataClient {
         String url = footballDataUrl + "/competitions/" + id;
 
         log.info("getting competition id: " + id);
-        CompetitionResource competition = getResource(CompetitionResource.class, url);
+        CompetitionResource competition = getResource(url, CompetitionResource.class);
         log.info("get competition: id = " + id);
-
         return competition;
     }
 
-    public List<CompetitionResource> getAllCompetitions(){
+    public List<Competition> getAllCompetitions(){
 
         List<CompetitionResource> competitionResources = new ArrayList<>();
 
@@ -97,7 +121,7 @@ public class FootballDataClient {
         }
         log.info("got all competitions: ids = " + competitionsId);
 
-        return  competitionResources;
+        return competitionConverter.toEntityList(competitionResources);
     }
 
     private List<PlayerResource> getPlayerResourcesByTeamId(Long teamId) {
@@ -105,9 +129,8 @@ public class FootballDataClient {
         String url = footballDataUrl + TEAM.getPath() + teamId;
 
         log.info("getting players from team id = " + teamId);
-        List<PlayerResource> players = getResource(PlayerResourceList.class, url).getPlayerResourceList();
+        List<PlayerResource> players = getResource(url, PlayerResourceList.class).getPlayerResourceList();
         log.info("got players from team id = " + teamId);
-
         return players;
     }
 
@@ -120,7 +143,6 @@ public class FootballDataClient {
             players.addAll(team.getSquad().getPlayers());
         }
         log.info("got all players");
-
         return players;
     }
 
@@ -129,7 +151,7 @@ public class FootballDataClient {
         String url = footballDataUrl + "competitions/" + competitionId + TEAM.getPath();
 
         log.info("getting teams from competition: id = " + competitionId);
-        TeamResourceList teams = getResource(TeamResourceList.class, url);
+        TeamResourceList teams = getResource(url, TeamResourceList.class);
         log.info("got teams from competition: id = " + competitionId);
         return teams.getTeamResourceList();
     }
@@ -159,34 +181,41 @@ public class FootballDataClient {
     private TeamResource getTeamById(Long teamId) {
 
         String url = footballDataUrl + TEAM.getPath() + teamId;
-        
-        return getResource(TeamResource.class, url);
+        return getResource(url, TeamResource.class);
     }
 
-    public List<TeamResource> getAllTeams() {
+    public List<Team> getAllTeams() {
 
         List<TeamResource> teamResources = new ArrayList<>();
         List<Long> teamIds = getAllTeamIds(getAllTeamsFromCompetitions());
-
+        log.info("getting teams: ids = " + teamIds);
         for (Long teamId : teamIds) {
             teamResources.add(getTeamById(teamId));
         }
-        return teamResources;
+        log.info("got teams: ids = " + teamIds);
+        return teamConverter.toEntityList(teamResources);
     }
 
-    public List<MatchResource> getAllMatches() {
+    public List<Match> getAllMatches() {
 
         List<MatchResource> matchResources = new ArrayList<>();
 
         log.info("getting all matches from competitions: ids = " + competitionsId);
         for (Long competitionId : competitionsId) {
-            String url = footballDataUrl + "competitions/" + competitionId + MATCH.getPath();
-            log.info("getting matches from competition: id = " + competitionId);
-            matchResources.addAll(getResource(MatchResourceList.class, url).getMatchResourceList());
-            log.info("got matches from competition: id =" + competitionId);
+            matchResources.addAll(getMatchesByCompetitionId(competitionId));
         }
         log.info("got all matches from competitions: ids = " + competitionsId);
-        return matchResources;
+        return matchConverter.toEntityList(matchResources);
+    }
+
+    private List<MatchResource> getMatchesByCompetitionId(Long competitionId) {
+
+        String url = footballDataUrl + "competitions/" + competitionId + MATCH.getPath();
+
+        log.info("getting matches from competition: id = " + competitionId);
+        List<MatchResource> matchResourceList = getResource(url, MatchResourceList.class).getMatchResourceList();
+        log.info("got matches from competition: id =" + competitionId);
+        return matchResourceList;
     }
 
     public AreaResourceList getAreaList(List<CompetitionResource> competitionResources) {

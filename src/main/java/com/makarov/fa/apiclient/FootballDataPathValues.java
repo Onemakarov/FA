@@ -6,10 +6,8 @@ public enum FootballDataPathValues {
 
     COMPETITION("/competitions/"), MATCH("/matches/"), TEAM("/teams/");
 
-
     @Getter
     private String path;
-
 
     FootballDataPathValues(String path) {
         this.path = path;

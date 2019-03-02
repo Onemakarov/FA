@@ -36,7 +36,6 @@ public class MatchConverter {
         matchEntity.setStage(matchResource.getStage());
         matchEntity.setGroup(matchResource.getGroup());
         matchEntity.setScore(scoreConverter.toEntity(matchResource.getScore()));
-
         return matchEntity;
     }
 
@@ -47,7 +46,6 @@ public class MatchConverter {
         for (MatchResource matchResource : matchResources) {
             matches.add(toEntity(matchResource));
         }
-
         return matches;
     }
 }

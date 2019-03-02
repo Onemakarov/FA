@@ -42,8 +42,4 @@ public class Match extends AuditEntity {
 
     @OneToOne(cascade = CascadeType.ALL)
     private Score score;
-
-
-
-
 }

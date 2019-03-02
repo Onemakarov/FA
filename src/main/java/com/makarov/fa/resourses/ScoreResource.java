@@ -1,8 +1,6 @@
 package com.makarov.fa.resourses;
 
-import com.makarov.fa.entity.ScoreState;
 import lombok.Data;
-import org.springframework.stereotype.Component;
 
 @Data
 public class ScoreResource {

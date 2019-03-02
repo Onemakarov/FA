@@ -1,7 +1,5 @@
 package com.makarov.fa.resourses;
 
-import com.makarov.fa.entity.Competition;
-import com.makarov.fa.entity.Season;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 import java.util.Date;

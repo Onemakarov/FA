@@ -2,7 +2,6 @@ package com.makarov.fa.resourses;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.makarov.fa.entity.Competition;
 import lombok.Getter;
 import lombok.ToString;
 

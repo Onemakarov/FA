@@ -13,7 +13,6 @@ public class AreaConverter {
 
         area.setId(areaResource.getId());
         area.setName(areaResource.getName());
-
         return area;
     }
 }

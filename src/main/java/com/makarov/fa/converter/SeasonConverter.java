@@ -25,8 +25,6 @@ public class SeasonConverter {
         season.setId(seasonResource.getId());
         season.setStartDate(seasonResource.getStartDate());
         season.setEndDate(seasonResource.getEndDate());
-//        season.setWinner(teamConverter.toEntity(seasonResource.getWinner()));
-
         return season;
     }
 

@@ -15,7 +15,6 @@ public class ScoreStateConverter {
 
         scoreStateEntity.setHomeTeam(scoreStateResource.getHomeTeam());
         scoreStateEntity.setAwayTeam(scoreStateResource.getAwayTeam());
-
         return scoreStateEntity;
     }
 }

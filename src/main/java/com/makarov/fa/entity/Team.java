@@ -1,7 +1,6 @@
 package com.makarov.fa.entity;
 
 import lombok.Data;
-import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -53,7 +52,7 @@ public class Team {
     @Column(name = "venue")
     private String venue;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Squad squad;
 
     @Column(name = "lastUpdated")

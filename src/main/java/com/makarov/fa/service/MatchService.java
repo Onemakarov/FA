@@ -1,9 +1,7 @@
 package com.makarov.fa.service;
 
-import com.makarov.fa.converter.MatchConverter;
 import com.makarov.fa.dao.MatchDao;
 import com.makarov.fa.entity.Match;
-import com.makarov.fa.resourses.MatchResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
