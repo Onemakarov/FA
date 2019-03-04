@@ -168,7 +168,7 @@ public class FootballDataClient {
         return teamResources;
     }
 
-    private List<Long> getAllTeamIds(List<TeamResource> teamResources) {
+    public List<Long> getAllTeamIds(List<TeamResource> teamResources) {
 
         List<Long> teamIds = new ArrayList<>();
 
@@ -177,7 +177,7 @@ public class FootballDataClient {
         }
         return teamIds;
     }
-    
+
     private TeamResource getTeamById(Long teamId) {
 
         String url = footballDataUrl + TEAM.getPath() + teamId;
@@ -257,3 +257,4 @@ public class FootballDataClient {
         return areas;
     }
 }
+
