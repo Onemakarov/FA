@@ -34,7 +34,7 @@ public class FootballDataClient {
 
     private final ObjectMapper objectMapper;
 
-    private final List<Long> competitionsId = Arrays.asList(2021L);//2016L, 2018L,2000L, 2001L ,2002L, 2003L, 2013L, 2014L, 2015L,2019L, 2017L,
+    private final List<Long> competitionsId = Arrays.asList(2000L, 2001L ,2002L, 2003L, 2013L, 2014L, 2015L, 2016L, 2018L, 2019L, 2017L, 2021L);
 
     private final CompetitionConverter competitionConverter;
 
@@ -213,9 +213,17 @@ public class FootballDataClient {
         String url = footballDataUrl + "competitions/" + competitionId + MATCH.getPath();
 
         log.info("getting matches from competition: id = " + competitionId);
-        List<MatchResource> matchResourceList = getResource(url, MatchResourceList.class).getMatchResourceList();
+        MatchResourceList matchResourceList = getResource(url, MatchResourceList.class);
         log.info("got matches from competition: id =" + competitionId);
-        return matchResourceList;
+        return setCompetitionsInMatches(matchResourceList);
+    }
+
+    private List<MatchResource> setCompetitionsInMatches(MatchResourceList matchResourceList) {
+        List<MatchResource> matchResources = matchResourceList.getMatchResourceList();
+        for (MatchResource matchResource : matchResources) {
+            matchResource.setCompetition(matchResourceList.getCompetition());
+        }
+        return matchResources;
     }
 
     public AreaResourceList getAreaList(List<CompetitionResource> competitionResources) {
@@ -243,15 +251,15 @@ public class FootballDataClient {
         return seasons;
     }
 
-    public List<Area> getAllAreas(List<Competition> competitions) {
+    public List<Area> getAllAreas(List<Team> teams) {
 
         List<Long> areaIdList = new ArrayList<>();
         List<Area> areas = new ArrayList<>();
 
-        for (Competition competition : competitions) {
-            if (!areaIdList.contains(competition.getArea().getId())) {
-                areaIdList.add(competition.getArea().getId());
-                areas.add(competition.getArea());
+        for (Team team : teams) {
+            if (!areaIdList.contains(team.getArea().getId())) {
+                areaIdList.add(team.getArea().getId());
+                areas.add(team.getArea());
             }
         }
         return areas;

@@ -30,4 +30,7 @@ public class Competition extends AuditEntity {
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Season> seasons;
+
+    @ManyToMany
+    private List<Team> teams;
 }

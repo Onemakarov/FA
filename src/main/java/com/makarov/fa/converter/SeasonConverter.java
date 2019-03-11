@@ -11,11 +11,8 @@ import java.util.List;
 @Component
 public class SeasonConverter {
 
-    private final TeamConverter teamConverter;
-
     @Autowired
-    public SeasonConverter(TeamConverter teamConverter) {
-        this.teamConverter = teamConverter;
+    public SeasonConverter() {
     }
 
     public Season toEntity(SeasonResource seasonResource) {

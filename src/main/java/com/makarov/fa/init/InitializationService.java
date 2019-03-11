@@ -37,17 +37,17 @@ public class InitializationService implements ApplicationListener<ApplicationRea
 
         List<Competition> competitions = footballDataClient.getAllCompetitions();
 
-
         List<Match> matches = footballDataClient.getAllMatches();
 
         List<Team> teams = footballDataClient.getAllTeams();
 
-        List<Area> areas = footballDataClient.getAllAreas(competitions);
+        List<Area> areas = footballDataClient.getAllAreas(teams);
 
         areaService.addAreas(areas);
         setAreasInCompetitions(competitions);
         setAreasInTeams(teams);
         competitionService.addCompetitions(competitions);
+        setCompetitionsInMatches(matches);
         teamService.addAllTeam(teams);
         matchService.addMatches(matches);
         System.out.println();
@@ -70,6 +70,17 @@ public class InitializationService implements ApplicationListener<ApplicationRea
             for (Area area : areas) {
                 if (team.getArea().getId().equals(area.getId())) {
                     team.setArea(area);
+                }
+            }
+        }
+    }
+
+    private void setCompetitionsInMatches(List<Match> matches) {
+        List<Competition> competitions = competitionService.getAllCompetitions();
+        for (Match match : matches) {
+            for (Competition competition : competitions) {
+                if (match.getCompetition().getId().equals(competition.getId())) {
+                    match.setCompetition(competition);
                 }
             }
         }

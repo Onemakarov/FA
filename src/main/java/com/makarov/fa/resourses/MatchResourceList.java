@@ -14,4 +14,8 @@ public class MatchResourceList {
     @JsonProperty
     @JsonAlias(value = "matches")
     private List<MatchResource> matchResourceList;
+
+    @Getter
+    @JsonProperty
+    private CompetitionResource competition;
 }

@@ -10,6 +10,8 @@ public class MatchResource {
 
     private long id;
 
+    private CompetitionResource competition;
+
     private SeasonResource season;
 
     private Date utcDate;

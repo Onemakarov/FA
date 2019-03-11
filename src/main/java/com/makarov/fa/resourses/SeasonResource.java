@@ -9,6 +9,8 @@ import java.util.Date;
 @Data
 public class SeasonResource {
 
+    private Long competitionId;
+
     private Long id;
 
     private Date startDate;

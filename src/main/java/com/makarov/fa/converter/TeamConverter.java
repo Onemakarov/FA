@@ -16,10 +16,13 @@ public class TeamConverter {
 
     private final PlayerConverter playerConverter;
 
+    private final CompetitionConverter competitionConverter;
+
     @Autowired
-    public TeamConverter(AreaConverter areaConverter, PlayerConverter playerConverter) {
+    public TeamConverter(AreaConverter areaConverter, PlayerConverter playerConverter, CompetitionConverter competitionConverter) {
         this.areaConverter = areaConverter;
         this.playerConverter = playerConverter;
+        this.competitionConverter = competitionConverter;
     }
 
     public Team toEntity(TeamResource teamResource) {
@@ -27,6 +30,7 @@ public class TeamConverter {
         Team teamEntity = new Team();
 
         teamEntity.setId(teamResource.getId());
+        teamEntity.setActiveCompetitions(competitionConverter.toEntityList(teamResource.getActiveCompetitions()));
         teamEntity.setName(teamResource.getName());
         teamEntity.setShortName(teamResource.getShortName());
         teamEntity.setCrestUrl(teamResource.getCrestUrl());
