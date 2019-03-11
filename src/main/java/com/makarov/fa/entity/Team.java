@@ -13,7 +13,7 @@ public class Team {
     @Id
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Area area;
 
     @ManyToMany

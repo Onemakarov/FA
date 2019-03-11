@@ -63,11 +63,11 @@ public class FootballDataClient {
                 log.info("end response");
                 JavaType javaType = objectMapper.constructType(tClass);
                 return objectMapper.readValue(responseEntity.getBody(), javaType);
-            }catch (HttpClientErrorException.TooManyRequests errorException){
+            } catch (HttpClientErrorException.TooManyRequests errorException){
                 log.error(errorException.getMessage());
                 Long secondToWait = Long.valueOf(errorException.getResponseHeaders().getFirst("X-RequestCounter-Reset"));
                 waitSeconds(secondToWait + 2);
-            }catch (IOException e) {
+            } catch (IOException e) {
                 log.error("got IO exception", e);
             }
         }
@@ -170,12 +170,12 @@ public class FootballDataClient {
 
     public List<Long> getAllTeamIds(List<TeamResource> teamResources) {
 
-        List<Long> teamIds = new ArrayList<>();
+        Set<Long> teamIds = new HashSet<>();
 
         for (TeamResource teamResource : teamResources) {
             teamIds.add(teamResource.getId());
         }
-        return teamIds;
+        return new ArrayList<>(teamIds);
     }
 
     private TeamResource getTeamById(Long teamId) {
