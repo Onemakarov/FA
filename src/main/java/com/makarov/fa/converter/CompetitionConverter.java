@@ -31,7 +31,7 @@ public class CompetitionConverter {
         competition.setCode(competitionResource.getCode());
         competition.setEmblemUrl(competitionResource.getEmblemUrl());
         competition.setPlan(competitionResource.getPlan());
-        if (competition.getSeasons() != null) {
+        if (competitionResource.getSeasons() != null) {
             competition.setSeasons(seasonConverter.toEntityList(competitionResource.getSeasons()));
         }
         return competition;

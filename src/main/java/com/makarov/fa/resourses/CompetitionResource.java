@@ -24,7 +24,7 @@ public class CompetitionResource {
 
     private String plan;
 
-    @JsonProperty(value = "seasons")
+    @JsonProperty("seasons")
     private List<SeasonResource> seasons;
 }
 

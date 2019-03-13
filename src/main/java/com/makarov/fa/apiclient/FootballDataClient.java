@@ -17,10 +17,15 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import static com.makarov.fa.apiclient.FootballDataPathValues.*;
+import static com.makarov.fa.apiclient.FootballDataPathValues.MATCH;
+import static com.makarov.fa.apiclient.FootballDataPathValues.TEAM;
+import static java.util.Arrays.asList;
 
 @Component
 @Slf4j
@@ -34,7 +39,7 @@ public class FootballDataClient {
 
     private final ObjectMapper objectMapper;
 
-    private final List<Long> competitionsId = Arrays.asList(2000L, 2001L ,2002L, 2003L, 2013L, 2014L, 2015L, 2016L, 2018L, 2019L, 2017L, 2021L);
+    private final List<Long> competitionsId = asList(2000L, 2001L, 2002L, 2003L, 2013L, 2014L, 2015L, 2016L, 2018L, 2019L, 2017L, 2021L);
 
     private final CompetitionConverter competitionConverter;
 
@@ -188,6 +193,7 @@ public class FootballDataClient {
 
         List<TeamResource> teamResources = new ArrayList<>();
         List<Long> teamIds = getAllTeamIds(getAllTeamsFromCompetitions());
+
         log.info("getting teams: ids = " + teamIds);
         for (Long teamId : teamIds) {
             teamResources.add(getTeamById(teamId));
@@ -219,7 +225,9 @@ public class FootballDataClient {
     }
 
     private List<MatchResource> setCompetitionsInMatches(MatchResourceList matchResourceList) {
+
         List<MatchResource> matchResources = matchResourceList.getMatchResourceList();
+
         for (MatchResource matchResource : matchResources) {
             matchResource.setCompetition(matchResourceList.getCompetition());
         }
@@ -229,8 +237,8 @@ public class FootballDataClient {
     public AreaResourceList getAreaList(List<CompetitionResource> competitionResources) {
 
         List<AreaResource> areaArrayList = new ArrayList<>();
-        AreaResourceList areaList = new AreaResourceList();
 
+        AreaResourceList areaList = new AreaResourceList();
         for (CompetitionResource competitionResource : competitionResources) {
             if (!areaArrayList.contains(competitionResource.getArea())) {
                 areaArrayList.add(competitionResource.getArea());
@@ -243,6 +251,7 @@ public class FootballDataClient {
     public List<SeasonResource> getAllSeasons(List<CompetitionResource> competitionResources) {
 
         List<SeasonResource> seasons = new ArrayList<>();
+
         for (CompetitionResource competition : competitionResources) {
             seasons.addAll(competition.getSeasons());
             log.info("got season from competition: comp id = " + competition.getId());
@@ -251,15 +260,37 @@ public class FootballDataClient {
         return seasons;
     }
 
-    public List<Area> getAllAreas(List<Team> teams) {
+    public List<Area> getAllAreas(List<Team> teams, List<Competition> competitions) {
 
         List<Long> areaIdList = new ArrayList<>();
+        List<Area> areas = new ArrayList<>();
+
+        areas.addAll(getAreasFromTeams(teams, areaIdList));
+        areas.addAll(getAreasFromCompetitions(competitions, areaIdList));
+        return areas;
+    }
+
+    private List<Area> getAreasFromTeams(List<Team> teams, List<Long> areaIdList) {
+
         List<Area> areas = new ArrayList<>();
 
         for (Team team : teams) {
             if (!areaIdList.contains(team.getArea().getId())) {
                 areaIdList.add(team.getArea().getId());
                 areas.add(team.getArea());
+            }
+        }
+        return areas;
+    }
+
+    private List<Area> getAreasFromCompetitions(List<Competition> competitions, List<Long> areaIdList) {
+
+        List<Area> areas = new ArrayList<>();
+
+        for (Competition competition : competitions) {
+            if (!areaIdList.contains(competition.getArea().getId())) {
+                areas.add(competition.getArea());
+                areaIdList.add(competition.getArea().getId());
             }
         }
         return areas;

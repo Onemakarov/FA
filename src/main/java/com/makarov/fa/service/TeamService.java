@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.management.Query;
 import java.util.List;
 
 @Service
@@ -28,5 +29,10 @@ public class TeamService {
         for (Team team : teams) {
             addTeam(team);
         }
+    }
+
+    @Transactional
+    public List<Team> getAllTeams() {
+        return teamDao.getAllTeams();
     }
 }
