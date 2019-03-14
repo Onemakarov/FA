@@ -34,4 +34,24 @@ public class SeasonConverter {
         }
         return seasons;
     }
+
+    public SeasonResource toResource(Season season) {
+
+        SeasonResource seasonResource = new SeasonResource();
+
+        seasonResource.setId(season.getId());
+        seasonResource.setStartDate(season.getStartDate());
+        seasonResource.setEndDate(season.getEndDate());
+        return seasonResource;
+    }
+
+    public List<SeasonResource> toResourceList(List<Season> seasons) {
+
+        List<SeasonResource> seasonResources = new ArrayList<>();
+
+        for (Season season : seasons) {
+            seasonResources.add(toResource(season));
+        }
+        return seasonResources;
+    }
 }

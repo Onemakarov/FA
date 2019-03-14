@@ -46,5 +46,29 @@ public class CompetitionConverter {
         }
         return competitions;
     }
+
+    public CompetitionResource toResource(Competition competition) {
+
+        CompetitionResource competitionResource = new CompetitionResource();
+
+        competitionResource.setId(competition.getId());
+        competitionResource.setName(competition.getName());
+        competitionResource.setArea(areaConverter.toResource(competition.getArea()));
+        competitionResource.setCode(competition.getCode());
+        competitionResource.setEmblemUrl(competition.getEmblemUrl());
+        competitionResource.setPlan(competition.getPlan());
+        competitionResource.setSeasons(seasonConverter.toResourceList(competition.getSeasons()));
+        return competitionResource;
+    }
+
+    public List<CompetitionResource> toResourceList(List<Competition> competitions) {
+
+        List<CompetitionResource> competitionResources = new ArrayList<>();
+
+        for (Competition competition : competitions) {
+            competitionResources.add(toResource(competition));
+        }
+        return competitionResources;
+    }
 }
 

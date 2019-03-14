@@ -27,29 +27,28 @@ public class TeamConverter {
 
     public Team toEntity(TeamResource teamResource) {
 
-        Team teamEntity = new Team();
+        Team team = new Team();
 
-        teamEntity.setId(teamResource.getId());
-        teamEntity.setActiveCompetitions(competitionConverter.toEntityList(teamResource.getActiveCompetitions()));
-        teamEntity.setName(teamResource.getName());
-        teamEntity.setShortName(teamResource.getShortName());
-        teamEntity.setCrestUrl(teamResource.getCrestUrl());
-        teamEntity.setTla(teamResource.getTla());
-        teamEntity.setAddress(teamResource.getAddress());
-        teamEntity.setArea(areaConverter.toEntity(teamResource.getArea()));
-        teamEntity.setClubColors(teamResource.getClubColors());
-        teamEntity.setEmail(teamResource.getEmail());
-        teamEntity.setFounded(teamResource.getFounded());
-        teamEntity.setPhone(teamResource.getPhone());
+        team.setId(teamResource.getId());
+        team.setActiveCompetitions(competitionConverter.toEntityList(teamResource.getActiveCompetitions()));
+        team.setName(teamResource.getName());
+        team.setShortName(teamResource.getShortName());
+        team.setCrestUrl(teamResource.getCrestUrl());
+        team.setTla(teamResource.getTla());
+        team.setAddress(teamResource.getAddress());
+        team.setArea(areaConverter.toEntity(teamResource.getArea()));
+        team.setClubColors(teamResource.getClubColors());
+        team.setEmail(teamResource.getEmail());
+        team.setFounded(teamResource.getFounded());
+        team.setPhone(teamResource.getPhone());
         if (teamResource.getSquad() != null) {
             Squad squad = new Squad();
             squad.setPlayers((playerConverter.toEntityList(teamResource.getSquad())));
-            System.out.println(squad.getPlayers());
-            teamEntity.setSquad(squad);
+            team.setSquad(squad);
         }
-        teamEntity.setVenue(teamResource.getVenue());
-        teamEntity.setWebsite(teamResource.getWebsite());
-        return teamEntity;
+        team.setVenue(teamResource.getVenue());
+        team.setWebsite(teamResource.getWebsite());
+        return team;
     }
 
     public List<Team> toEntityList(List<TeamResource> teamResources) {
@@ -60,6 +59,38 @@ public class TeamConverter {
             teams.add(toEntity(teamResource));
         }
         return teams;
+    }
+
+    public TeamResource toResource(Team team) {
+
+        TeamResource teamResource = new TeamResource();
+
+        teamResource.setId(team.getId());
+        teamResource.setActiveCompetitions(competitionConverter.toResourceList(team.getActiveCompetitions()));
+        teamResource.setName(team.getName());
+        teamResource.setShortName(team.getShortName());
+        teamResource.setCrestUrl(team.getCrestUrl());
+        teamResource.setTla(team.getTla());
+        teamResource.setAddress(team.getAddress());
+        teamResource.setArea(areaConverter.toResource(team.getArea()));
+        teamResource.setClubColors(team.getClubColors());
+        teamResource.setEmail(team.getEmail());
+        teamResource.setFounded(team.getFounded());
+        teamResource.setPhone(team.getPhone());
+        teamResource.setSquad(playerConverter.toResourceList(team.getSquad().getPlayers()));
+        teamResource.setVenue(team.getVenue());
+        teamResource.setWebsite(team.getWebsite());
+        return teamResource;
+    }
+
+    public List<TeamResource> toResourceList(List<Team> teams) {
+
+        List<TeamResource> teamResources = new ArrayList<>();
+
+        for (Team team : teams) {
+            teamResources.add(toResource(team));
+        }
+        return teamResources;
     }
 }
 

@@ -12,27 +12,53 @@ public class PlayerConverter {
 
     public Player toEntity(PlayerResource playerResource) {
 
-        Player playerEntity = new Player();
+        Player player = new Player();
 
-        playerEntity.setName(playerResource.getName());
-        playerEntity.setFirstName(playerResource.getFirstName());
-        playerEntity.setLastName(playerResource.getLastName());
-        playerEntity.setDateOfBirth(playerResource.getDateOfBirth());
-        playerEntity.setCountryOfBirth(playerResource.getCountryOfBirth());
-        playerEntity.setNationality(playerResource.getNationality());
-        playerEntity.setPosition(playerResource.getPosition());
-        playerEntity.setShirtNumber(playerResource.getShirtNumber());
-        playerEntity.setLastUpdated(playerResource.getLastUpdated());
-        return playerEntity;
+        player.setName(playerResource.getName());
+        player.setFirstName(playerResource.getFirstName());
+        player.setLastName(playerResource.getLastName());
+        player.setDateOfBirth(playerResource.getDateOfBirth());
+        player.setCountryOfBirth(playerResource.getCountryOfBirth());
+        player.setNationality(playerResource.getNationality());
+        player.setPosition(playerResource.getPosition());
+        player.setShirtNumber(playerResource.getShirtNumber());
+        player.setLastUpdated(playerResource.getLastUpdated());
+        return player;
     }
 
     public List<Player> toEntityList(List<PlayerResource> playerResourceList) {
 
-        List<Player> playersEntityList = new ArrayList<>();
+        List<Player> players = new ArrayList<>();
 
         for (PlayerResource playerResource : playerResourceList) {
-            playersEntityList.add(toEntity(playerResource));
+            players.add(toEntity(playerResource));
         }
-        return playersEntityList;
+        return players;
+    }
+
+    public PlayerResource toResource(Player player) {
+
+        PlayerResource playerResource = new PlayerResource();
+
+        playerResource.setName(player.getName());
+        playerResource.setFirstName(player.getFirstName());
+        playerResource.setLastName(player.getLastName());
+        playerResource.setDateOfBirth(player.getDateOfBirth());
+        playerResource.setCountryOfBirth(player.getCountryOfBirth());
+        playerResource.setNationality(player.getNationality());
+        playerResource.setPosition(player.getPosition());
+        playerResource.setShirtNumber(player.getShirtNumber());
+        playerResource.setLastUpdated(player.getLastUpdated());
+        return playerResource;
+    }
+
+    public List<PlayerResource> toResourceList(List<Player> players) {
+
+        List<PlayerResource> playerResources = new ArrayList<>();
+
+        for (Player player : players) {
+            playerResources.add(toResource(player));
+        }
+        return playerResources;
     }
 }

@@ -26,18 +26,18 @@ public class MatchConverter {
 
     public Match toEntity(MatchResource matchResource) {
 
-        Match matchEntity = new Match();
+        Match match = new Match();
 
-        matchEntity.setId(matchResource.getId());
-        matchEntity.setCompetition(competitionConverter.toEntity(matchResource.getCompetition()));
-        matchEntity.setSeason(seasonConverter.toEntity(matchResource.getSeason()));
-        matchEntity.setUtcDate(matchResource.getUtcDate());
-        matchEntity.setStatus(matchResource.getStatus());
-        matchEntity.setMatchDay(matchResource.getMatchDay());
-        matchEntity.setStage(matchResource.getStage());
-        matchEntity.setGroup(matchResource.getGroup());
-        matchEntity.setScore(scoreConverter.toEntity(matchResource.getScore()));
-        return matchEntity;
+        match.setId(matchResource.getId());
+        match.setCompetition(competitionConverter.toEntity(matchResource.getCompetition()));
+        match.setSeason(seasonConverter.toEntity(matchResource.getSeason()));
+        match.setUtcDate(matchResource.getUtcDate());
+        match.setStatus(matchResource.getStatus());
+        match.setMatchDay(matchResource.getMatchDay());
+        match.setStage(matchResource.getStage());
+        match.setGroup(matchResource.getGroup());
+        match.setScore(scoreConverter.toEntity(matchResource.getScore()));
+        return match;
     }
 
     public List<Match> toEntityList(List<MatchResource> matchResources) {
@@ -48,5 +48,31 @@ public class MatchConverter {
             matches.add(toEntity(matchResource));
         }
         return matches;
+    }
+
+    public MatchResource toResource(Match match) {
+
+        MatchResource matchResource = new MatchResource();
+
+        matchResource.setId(match.getId());
+        matchResource.setCompetition(competitionConverter.toResource(match.getCompetition()));
+        matchResource.setSeason(seasonConverter.toResource(match.getSeason()));
+        matchResource.setUtcDate(match.getUtcDate());
+        matchResource.setStatus(match.getStatus());
+        matchResource.setMatchDay(match.getMatchDay());
+        matchResource.setStage(match.getStage());
+        matchResource.setGroup(match.getGroup());
+        matchResource.setScore(scoreConverter.toResource(match.getScore()));
+        return matchResource;
+    }
+
+    public List<MatchResource> toResourceList(List<Match> matches) {
+
+        List<MatchResource> matchResources = new ArrayList<>();
+
+        for (Match match : matches) {
+            matchResources.add(toResource(match));
+        }
+        return matchResources;
     }
 }
