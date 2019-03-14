@@ -6,16 +6,11 @@ import com.makarov.fa.entity.Area;
 import com.makarov.fa.entity.Competition;
 import com.makarov.fa.entity.Team;
 import com.makarov.fa.resourses.TeamResource;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -25,7 +20,6 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FootballDataClientTest {

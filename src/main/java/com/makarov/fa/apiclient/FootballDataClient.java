@@ -39,7 +39,7 @@ public class FootballDataClient {
 
     private final ObjectMapper objectMapper;
 
-    private final List<Long> competitionsId = asList(2000L, 2001L, 2002L, 2003L, 2013L, 2014L, 2015L, 2016L, 2018L, 2019L, 2017L, 2021L);
+    private final List<Long> competitionsId = asList(2000L);//, 2001L, 2002L, 2003L, 2013L, 2014L, 2015L, 2016L, 2018L, 2019L, 2017L, 2021L
 
     private final CompetitionConverter competitionConverter;
 
