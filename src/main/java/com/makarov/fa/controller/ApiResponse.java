@@ -3,17 +3,19 @@ package com.makarov.fa.controller;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.makarov.fa.resourses.Resource;
+import lombok.Data;
 import org.springframework.http.HttpStatus;
 
 import java.util.Collections;
 import java.util.List;
 
+@Data
 public class ApiResponse {
 
     @JsonIgnore
-    private final HttpStatus statusCode;
+    private HttpStatus statusCode;
 
-    private final String message;
+    private String message;
 
     private List<? extends Resource> content;
 

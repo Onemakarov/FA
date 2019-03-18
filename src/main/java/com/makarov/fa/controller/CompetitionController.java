@@ -1,6 +1,7 @@
 package com.makarov.fa.controller;
 
 import com.makarov.fa.converter.CompetitionConverter;
+import com.makarov.fa.entity.Competition;
 import com.makarov.fa.resourses.CompetitionResource;
 import com.makarov.fa.service.CompetitionService;
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("competitions")
+@RequestMapping
 public class CompetitionController {
 
     private final CompetitionService competitionService;
@@ -25,21 +26,24 @@ public class CompetitionController {
         this.competitionConverter = competitionConverter;
     }
 
-    @GetMapping
-    public ResponseEntity<List<CompetitionResource>> getAllCompetitions() {
+    @GetMapping("competitions")
+    public ResponseEntity<ApiResponse> getAllCompetitions() {
 
         List<CompetitionResource> competitionResources = competitionConverter.
                 toResourceList(competitionService.getAllCompetitions());
 
-        return new ResponseEntity<List<CompetitionResource>>(competitionResources, HttpStatus.OK);
+        ApiResponse apiResponse = new ApiResponse(HttpStatus.OK, "OK", competitionResources);
+
+        return new ResponseEntity<>(apiResponse, apiResponse.getStatusCode());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<CompetitionResource> getCompetition(@PathVariable("id") Long competitionId) {
+    @GetMapping("competitions/{id}")
+    public ResponseEntity<ApiResponse> getCompetition(@PathVariable("id") Long competitionId) {
 
-        CompetitionResource competitionResource = competitionConverter.
-                toResource(competitionService.getCompetitionById(competitionId));
+        List<Competition> competitions = competitionService.getAllCompetitions();
 
-        return new ResponseEntity<CompetitionResource>(competitionResource, HttpStatus.OK);
+        ApiResponse apiResponse = new ApiResponse(HttpStatus.OK, "OK", competitionConverter.toResourceList(competitions));
+
+        return new ResponseEntity<>(apiResponse, apiResponse.getStatusCode());
     }
 }
