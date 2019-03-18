@@ -10,7 +10,7 @@ import java.util.List;
 @Component
 @Data
 @Slf4j
-public class CompetitionResource {
+public class CompetitionResource implements Resource {
 
     private Long Id;
 

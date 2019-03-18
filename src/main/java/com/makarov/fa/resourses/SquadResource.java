@@ -7,7 +7,7 @@ import java.util.List;
 
 @Component
 @Data
-public class SquadResource {
+public class SquadResource implements Resource {
 
     private List<PlayerResource> playerResourceList;
 }

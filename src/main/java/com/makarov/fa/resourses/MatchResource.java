@@ -6,7 +6,7 @@ import java.util.Date;
 
 @Component
 @Data
-public class MatchResource {
+public class MatchResource implements Resource {
 
     private long id;
 

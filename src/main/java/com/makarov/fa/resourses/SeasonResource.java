@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Component
 @Data
-public class SeasonResource {
+public class SeasonResource implements Resource {
 
     private Long competitionId;
 
