@@ -33,7 +33,7 @@ public class Match extends AuditEntity {
     @Column(name = "stage")
     private String stage;
 
-    @Column(name = "group1")
+    @Column(name = "\"group\"")
     private String group;
 
     @Column(name = "last_updated")

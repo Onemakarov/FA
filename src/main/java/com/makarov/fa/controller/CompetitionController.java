@@ -4,6 +4,7 @@ import com.makarov.fa.converter.CompetitionConverter;
 import com.makarov.fa.entity.Competition;
 import com.makarov.fa.resourses.CompetitionResource;
 import com.makarov.fa.service.CompetitionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,13 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping
 public class CompetitionController {
 
     private final CompetitionService competitionService;
 
     private final CompetitionConverter competitionConverter;
 
+    @Autowired
     public CompetitionController(CompetitionService competitionService, CompetitionConverter competitionConverter) {
         this.competitionService = competitionService;
         this.competitionConverter = competitionConverter;
@@ -29,10 +30,9 @@ public class CompetitionController {
     @GetMapping("competitions")
     public ResponseEntity<ApiResponse> getAllCompetitions() {
 
-        List<CompetitionResource> competitionResources = competitionConverter.
-                toResourceList(competitionService.getAllCompetitions());
+        List<Competition> competitions = competitionService.getAllCompetitions();
 
-        ApiResponse apiResponse = new ApiResponse(HttpStatus.OK, "OK", competitionResources);
+        ApiResponse apiResponse = new ApiResponse(HttpStatus.OK, "OK", competitionConverter.toResourceList(competitions));
 
         return new ResponseEntity<>(apiResponse, apiResponse.getStatusCode());
     }

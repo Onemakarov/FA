@@ -13,7 +13,7 @@ public class MatchDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public Match getMachById(long id) {
+    public Match getMachById(Long id) {
         return entityManager.find(Match.class, id);
     }
 
