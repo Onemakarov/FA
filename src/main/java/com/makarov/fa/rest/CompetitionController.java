@@ -38,9 +38,9 @@ public class CompetitionController {
     @GetMapping("competitions/{id}")
     public ResponseEntity<ApiResponse> getCompetition(@PathVariable("id") Long competitionId) {
 
-        List<Competition> competitions = competitionService.getCompetitionById(competitionId);
+        Competition competition = competitionService.getCompetitionById(competitionId);
 
-        ApiResponse apiResponse = new ApiResponse(HttpStatus.OK, "OK", competitionConverter.toResourceList(competitions));
+        ApiResponse apiResponse = new ApiResponse(HttpStatus.OK, "OK", competitionConverter.toResource(competition));
 
         return new ResponseEntity<>(apiResponse, apiResponse.getStatusCode());
     }
