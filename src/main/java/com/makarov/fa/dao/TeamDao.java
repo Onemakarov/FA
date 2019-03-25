@@ -25,7 +25,12 @@ public class TeamDao {
     }
 
     public List<Team> getAllTeams() {
-        Query query = entityManager.createNativeQuery("SELECT * FROM teams", Team.class);
-        return query.getResultList();
+        return entityManager.createQuery("select t.* from teams t", Team.class).getResultList();
+    }
+
+    public List<Team> getTeamsByCompetitionId(long competitionId) {
+
+        String query = "select t from teams t inner join teams_active_competitions tac on t.id = tac.teams_id where tac.active_competitions_id = :competitionId";
+        return entityManager.createQuery(query, Team.class).setParameter("competitionId", competitionId).getResultList();
     }
 }

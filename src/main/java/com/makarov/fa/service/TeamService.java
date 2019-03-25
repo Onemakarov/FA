@@ -35,4 +35,8 @@ public class TeamService {
     public List<Team> getAllTeams() {
         return teamDao.getAllTeams();
     }
+
+    public List<Team> getTeamsByCompetitionId(long competitionId) {
+        return teamDao.getTeamsByCompetitionId(competitionId);
+    }
 }

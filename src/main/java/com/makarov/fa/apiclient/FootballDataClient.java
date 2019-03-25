@@ -69,7 +69,7 @@ public class FootballDataClient {
                 JavaType javaType = objectMapper.constructType(tClass);
                 return objectMapper.readValue(responseEntity.getBody(), javaType);
             } catch (HttpClientErrorException.TooManyRequests errorException){
-                log.error(errorException.getMessage());
+                log.warn(errorException.getMessage());
                 Long secondToWait = Long.valueOf(errorException.getResponseHeaders().getFirst("X-RequestCounter-Reset"));
                 waitSeconds(secondToWait + 2);
             } catch (IOException e) {
