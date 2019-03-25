@@ -3,7 +3,7 @@ package com.makarov.fa.resourses;
 import lombok.Data;
 
 @Data
-public class ScoreResource {
+public class ScoreResource implements Resource {
 
     private Long id;
 

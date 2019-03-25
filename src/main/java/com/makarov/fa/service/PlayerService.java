@@ -37,4 +37,8 @@ public class PlayerService {
     public List<Player> getPlayersByTeamId(Long teamId) {
         return playerDao.getPlayersByTeamId(teamId);
     }
+
+    public List<Player> getAllPlayers() {
+        return playerDao.getAllPlayers();
+    }
 }

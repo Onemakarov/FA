@@ -9,7 +9,7 @@ import java.util.List;
 
 @Component
 @Data
-public class TeamResource {
+public class TeamResource implements Resource {
 
     private Long id;
 

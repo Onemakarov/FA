@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Data
-public class AreaResource {
+public class AreaResource implements Resource {
 
     private Long id;
 

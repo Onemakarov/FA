@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Component
 @Data
-public class PlayerResource {
+public class PlayerResource implements Resource {
 
     private String name;
 
