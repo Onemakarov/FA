@@ -1,4 +1,4 @@
-package com.makarov.fa.controller;
+package com.makarov.fa.rest;
 
 import com.makarov.fa.converter.MatchConverter;
 import com.makarov.fa.entity.Match;

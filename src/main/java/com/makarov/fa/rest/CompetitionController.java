@@ -1,15 +1,13 @@
-package com.makarov.fa.controller;
+package com.makarov.fa.rest;
 
 import com.makarov.fa.converter.CompetitionConverter;
 import com.makarov.fa.entity.Competition;
-import com.makarov.fa.resourses.CompetitionResource;
 import com.makarov.fa.service.CompetitionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -40,7 +38,7 @@ public class CompetitionController {
     @GetMapping("competitions/{id}")
     public ResponseEntity<ApiResponse> getCompetition(@PathVariable("id") Long competitionId) {
 
-        List<Competition> competitions = competitionService.getAllCompetitions();
+        List<Competition> competitions = competitionService.getCompetitionById(competitionId);
 
         ApiResponse apiResponse = new ApiResponse(HttpStatus.OK, "OK", competitionConverter.toResourceList(competitions));
 

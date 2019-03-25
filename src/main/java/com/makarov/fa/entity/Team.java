@@ -16,7 +16,10 @@ public class Team {
     @ManyToOne
     private Area area;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "teams_active_competitions",
+            joinColumns = {@JoinColumn(name = "team_id")},
+            inverseJoinColumns = {@JoinColumn(name = "competition_id")})
     private List<Competition> activeCompetitions;
 
     @Column(name = "name")

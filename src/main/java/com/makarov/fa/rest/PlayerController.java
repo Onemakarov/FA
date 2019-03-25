@@ -1,4 +1,4 @@
-package com.makarov.fa.controller;
+package com.makarov.fa.rest;
 
 import com.makarov.fa.converter.PlayerConverter;
 import com.makarov.fa.entity.Player;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collections;
 import java.util.List;
 
 @RestController

@@ -1,4 +1,4 @@
-package com.makarov.fa.controller;
+package com.makarov.fa.rest;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;

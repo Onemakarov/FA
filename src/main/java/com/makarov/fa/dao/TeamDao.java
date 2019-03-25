@@ -25,7 +25,7 @@ public class TeamDao {
     }
 
     public List<Team> getAllTeams() {
-        return entityManager.createQuery("select t.* from teams t", Team.class).getResultList();
+        return entityManager.createQuery("select t from teams t", Team.class).getResultList();
     }
 
     public List<Team> getTeamsByCompetitionId(long competitionId) {
