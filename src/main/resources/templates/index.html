@@ -1,14 +1,34 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="css/index.css">
 </head>
 <body>
 <h1>Matches</h1>
-<ul>
-    <li></li>
-</ul>
-<p th:text="${matches}"></p>
+<div id="matches">
+    <table class="table matches">
+        <thead>
+        <tr>
+            <th scope="col">Home Team</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col">Away Team</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="match : ${matches}">
+            <tr>
+                <td><a th:href="@{'/matches/' + ${match.getId()}}" th:text="${match.getHomeTeam().getName()}"></a></td>
+                <td><a th:href="@{'/matches/' + ${match.getId()}}" th:text="${match.getScore().getFullTime().getHomeTeam()}"></a></td>
+                <td><a th:href="@{'/matches/' + ${match.getId()}}" th:text="${match.getScore().getFullTime().getAwayTeam()}"></a></td>
+                <td><a th:href="@{'/matches/' + ${match.getId()}}" th:text="${match.getAwayTeam().getName()}"></a></td>
+            </tr>
+
+        </th:block>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>

@@ -39,24 +39,31 @@ public class InitializationService implements ApplicationListener<ApplicationRea
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
 
-        List<Competition> competitions = footballDataClient.getAllCompetitions();
+        if (!isAlreadyInit()) {
 
-        List<Match> matches = footballDataClient.getAllMatches();
+            List<Competition> competitions = footballDataClient.getAllCompetitions();
 
-        List<Team> teams = footballDataClient.getAllTeams();
+            List<Match> matches = footballDataClient.getAllMatches();
 
-        List<Area> areas = footballDataClient.getAllAreas(teams, competitions);
+            List<Team> teams = footballDataClient.getAllTeams();
 
-        areaService.addAreas(areas);
-        setAreasInCompetitions(competitions);
-        setAreasInTeams(teams);
-        competitionService.addCompetitions(competitions);
-        setCompetitionsInTeams(teams);
-        teamService.addAllTeam(teams);
-        setCompetitionsInMatches(matches);
-        setSeasonInMatch(matches);
-        matchService.addMatches(matches);
-        System.out.println();
+            List<Area> areas = footballDataClient.getAllAreas(teams, competitions);
+
+            areaService.addAreas(areas);
+            setAreasInCompetitions(competitions);
+            setAreasInTeams(teams);
+            competitionService.addCompetitions(competitions);
+            setCompetitionsInTeams(teams);
+            teamService.addAllTeam(teams);
+            setCompetitionsInMatches(matches);
+            setSeasonInMatch(matches);
+            matchService.addMatches(matches);
+            System.out.println();
+        }
+    }
+
+    private boolean isAlreadyInit() {
+        return !competitionService.getAllCompetitions().isEmpty();
     }
 
     private void setSeasonInMatch(List<Match> matches) {

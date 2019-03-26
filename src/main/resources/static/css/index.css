@@ -1,0 +1,14 @@
+#matches {
+    border: double #6bff80;
+    text-align: center;
+}
+
+body {
+    color: blue;
+}
+
+.score {
+    text-align: center;
+    color: chartreuse;
+    size: 20px;
+}

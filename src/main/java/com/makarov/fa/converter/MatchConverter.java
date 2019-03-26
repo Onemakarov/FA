@@ -60,8 +60,12 @@ public class MatchConverter {
         MatchResource matchResource = new MatchResource();
 
         matchResource.setId(match.getId());
-        matchResource.setCompetition(competitionConverter.toResource(match.getCompetition()));
-        matchResource.setSeason(seasonConverter.toResource(match.getSeason()));
+        if (match.getCompetition() != null) {
+            matchResource.setCompetition(competitionConverter.toResource(match.getCompetition()));
+        }
+        if (match.getSeason() != null) {
+            matchResource.setSeason(seasonConverter.toResource(match.getSeason()));
+        }
         matchResource.setUtcDate(match.getUtcDate());
         matchResource.setStatus(match.getStatus());
         matchResource.setMatchDay(match.getMatchDay());
