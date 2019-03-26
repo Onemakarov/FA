@@ -17,11 +17,14 @@ public class MatchConverter {
 
     private final ScoreConverter scoreConverter;
 
+    private final TeamConverter teamConverter;
+
     @Autowired
-    public MatchConverter(CompetitionConverter competitionConverter, SeasonConverter seasonConverter, ScoreConverter scoreConverter) {
+    public MatchConverter(CompetitionConverter competitionConverter, SeasonConverter seasonConverter, ScoreConverter scoreConverter, TeamConverter teamConverter) {
         this.competitionConverter = competitionConverter;
         this.seasonConverter = seasonConverter;
         this.scoreConverter = scoreConverter;
+        this.teamConverter = teamConverter;
     }
 
     public Match toEntity(MatchResource matchResource) {
@@ -37,6 +40,8 @@ public class MatchConverter {
         match.setStage(matchResource.getStage());
         match.setGroup(matchResource.getGroup());
         match.setScore(scoreConverter.toEntity(matchResource.getScore()));
+        match.setHomeTeam(teamConverter.toEntity(matchResource.getHomeTeam()));
+        match.setAwayTeam(teamConverter.toEntity(matchResource.getAwayTeam()));
         return match;
     }
 
@@ -63,6 +68,8 @@ public class MatchConverter {
         matchResource.setStage(match.getStage());
         matchResource.setGroup(match.getGroup());
         matchResource.setScore(scoreConverter.toResource(match.getScore()));
+        matchResource.setHomeTeam(teamConverter.toResource(match.getHomeTeam()));
+        matchResource.setAwayTeam(teamConverter.toResource(match.getAwayTeam()));
         return matchResource;
     }
 

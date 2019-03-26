@@ -30,13 +30,17 @@ public class TeamConverter {
         Team team = new Team();
 
         team.setId(teamResource.getId());
-        team.setActiveCompetitions(competitionConverter.toEntityList(teamResource.getActiveCompetitions()));
+        if (teamResource.getActiveCompetitions() != null) {
+            team.setActiveCompetitions(competitionConverter.toEntityList(teamResource.getActiveCompetitions()));
+        }
         team.setName(teamResource.getName());
         team.setShortName(teamResource.getShortName());
         team.setCrestUrl(teamResource.getCrestUrl());
         team.setTla(teamResource.getTla());
         team.setAddress(teamResource.getAddress());
-        team.setArea(areaConverter.toEntity(teamResource.getArea()));
+        if (teamResource.getArea() != null) {
+            team.setArea(areaConverter.toEntity(teamResource.getArea()));
+        }
         team.setClubColors(teamResource.getClubColors());
         team.setEmail(teamResource.getEmail());
         team.setFounded(teamResource.getFounded());

@@ -44,4 +44,9 @@ public class MatchService {
     public List<Match> getAllMatches() {
         return matchDao.getAllMatches();
     }
+
+    @Transactional
+    public List<Match> getAllMatches(int limit) {
+        return matchDao.getAllMatches(limit);
+    }
 }

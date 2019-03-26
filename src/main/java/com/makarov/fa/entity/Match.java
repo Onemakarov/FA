@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Map;
 
 @Entity
 @Table(name = "matches")
@@ -42,4 +43,10 @@ public class Match extends AuditEntity {
 
     @OneToOne(cascade = CascadeType.ALL)
     private Score score;
+
+    @ManyToOne
+    private Team homeTeam;
+
+    @ManyToOne
+    private Team awayTeam;
 }

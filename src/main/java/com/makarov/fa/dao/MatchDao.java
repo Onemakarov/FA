@@ -18,13 +18,19 @@ public class MatchDao {
     }
 
     public List<Match> getAllMatchesBySeasonId(Long seasonId) {
-        return entityManager.createQuery("SELECT m FROM Match m WHERE m.season.id = :seasonId", Match.class)
+        return entityManager.createQuery("Select m From Match m Where m.season.id = :seasonId", Match.class)
                 .setParameter("seasonId", seasonId)
                 .getResultList();
     }
 
     public List<Match> getAllMatches() {
-        return entityManager.createQuery("SELECT m FROM Match m ", Match.class)
+        return entityManager.createQuery("Select m From Match m ", Match.class)
+                .getResultList();
+    }
+
+    public List<Match> getAllMatches(int limit) {
+        return entityManager.createQuery("Select m From Match m", Match.class)
+                .setMaxResults(limit)
                 .getResultList();
     }
 
