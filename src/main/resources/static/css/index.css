@@ -1,14 +1,11 @@
 #matches {
-    border: double #6bff80;
+    border: double blue;
     text-align: center;
+    margin-right: auto;
+    width:max-content;
+    background-color: #99ff33;
 }
 
 body {
-    color: blue;
-}
-
-.score {
-    text-align: center;
-    color: chartreuse;
-    size: 20px;
+    background-color: green;
 }

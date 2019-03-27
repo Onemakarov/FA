@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}">
 </head>
 <body>
-<h1>Matches</h1>
 <div id="matches">
     <table class="table matches">
+        <caption>Matches</caption>
         <thead>
         <tr>
             <th scope="col">Home Team</th>
@@ -24,6 +25,26 @@
                 <td><a th:href="@{'/matches/' + ${match.getId()}}" th:text="${match.getScore().getFullTime().getHomeTeam()}"></a></td>
                 <td><a th:href="@{'/matches/' + ${match.getId()}}" th:text="${match.getScore().getFullTime().getAwayTeam()}"></a></td>
                 <td><a th:href="@{'/matches/' + ${match.getId()}}" th:text="${match.getAwayTeam().getName()}"></a></td>
+            </tr>
+
+        </th:block>
+        </tbody>
+    </table>
+</div>
+<div id="competitions">
+    <table class="table competitions">
+        <caption>Competitions</caption>
+        <thead>
+        <tr>
+            <th>Competition</th>
+            <th>Area</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="competition : ${competitions}">
+            <tr>
+                <td><a th:href="@{'competitions/' + ${competition.getId}}"></a>${competition.getName}</td>
+                <td><a th:href="@{'competitions/' + ${competition.getId}}"></a>${competition.getArea.getName}</td>
             </tr>
 
         </th:block>

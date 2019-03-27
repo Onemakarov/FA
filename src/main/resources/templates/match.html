@@ -3,7 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Match</title>
+    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/match.css}">
 </head>
 <body>
+<div id="match">
+    <table class="single match">
+        <thead>
+        <tr class="head">
+            <td><a th:href="@{'teams/' + ${match.getHomeTeam().getId()}}" th:text="${match.getHomeTeam().getName()}"></a></td>
+            <td th:text="${match.getScore().getFullTime().getHomeTeam()} + ' : ' + ${match.getScore().getFullTime().getAwayTeam()}"></td>
+            <td><a th:href="@{'teams/' + ${match.getAwayTeam().getId()}}" th:text="${match.getAwayTeam().getName()}"></a></td>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block>
+            <tr>
+                <td th:text="${match.getScore().getHalfTime().getHomeTeam()}"></td>
+                <td>Half Time</td>
+                <td th:text="${match.getScore().getHalfTime().getAwayTeam()}"></td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+</div>
+
+
 </body>
 </html>

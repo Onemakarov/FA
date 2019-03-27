@@ -1,0 +1,20 @@
+#match {
+    background-color: gold;
+    text-align: center;
+    border-style: double;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    width:max-content
+}
+
+.head {
+    text-align: center;
+    font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif;
+    font-size: 50px;
+}
+
+body {
+    background-color: green;
+}
