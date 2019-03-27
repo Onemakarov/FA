@@ -43,8 +43,8 @@
         <tbody>
         <th:block th:each="competition : ${competitions}">
             <tr>
-                <td><a th:href="@{'competitions/' + ${competition.getId}}"></a>${competition.getName}</td>
-                <td><a th:href="@{'competitions/' + ${competition.getId}}"></a>${competition.getArea.getName}</td>
+                <td><a th:href="@{'competitions/' + ${competition.getId()}}" th:text="${competition.getName}"></a></td>
+                <td><a th:href="@{'competitions/' + ${competition.getId}}" th:text="${competition.getArea.getName}"></a></td>
             </tr>
 
         </th:block>
