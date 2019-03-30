@@ -2,54 +2,112 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Proto Index</title>
     <link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.1.1/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
-<div id="matches">
-    <table class="table matches">
-        <caption>Matches</caption>
-        <thead>
-        <tr>
-            <th scope="col">Home Team</th>
-            <th scope="col"></th>
-            <th scope="col"></th>
-            <th scope="col">Away Team</th>
-        </tr>
-        </thead>
-        <tbody>
-        <th:block th:each="match : ${matches}">
-            <tr>
-                <td><a th:href="@{'/matches/' + ${match.getId()}}" th:text="${match.getHomeTeam().getName()}"></a></td>
-                <td><a th:href="@{'/matches/' + ${match.getId()}}" th:text="${match.getScore().getFullTime().getHomeTeam()}"></a></td>
-                <td><a th:href="@{'/matches/' + ${match.getId()}}" th:text="${match.getScore().getFullTime().getAwayTeam()}"></a></td>
-                <td><a th:href="@{'/matches/' + ${match.getId()}}" th:text="${match.getAwayTeam().getName()}"></a></td>
-            </tr>
-
-        </th:block>
-        </tbody>
-    </table>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <a href="#" class="navbar-brand">Football Assistant</a>
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarMenu">
+        <ul class="navbar-nav ml-auto">
+            <li>
+                <a class="nav-link" href="/competitions">Competitions</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/matches">Matches</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/competitions/2001">Champions League</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/competitions/2021">EPL</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">La Liga</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Bundesliga</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="row">
+    <div class="col">
+        <div class="table-hover table-bordered table-sm">
+            <table id="matches-table" class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Home Team</th>
+                    <th scope="col">Score</th>
+                    <th scope="col">Away Team</th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="match : ${matches}">
+                    <tr class="clickable-row" th:data-href="'matches/' + ${match.getId()}">
+                        <td th:text="${match.getHomeTeam().getName()}"></td>
+                        <td th:text="${match.getScore().getFullTime().getHomeTeam()} + ' : ' + ${match.getScore().getFullTime().getAwayTeam()}"></td>
+                        <td th:text="${match.getAwayTeam().getName()}"></td>
+                    </tr>
+                </th:block>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col">
+        <div class="table-hover table-bordered table-sm">
+            <table id="competition-table" class="table-sm">
+                <thead>
+                <tr>
+                    <th>Competition</th>
+                    <th>Area</th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="competition : ${competitions}">
+                    <tr>
+                        <td th:text="${competition.getName()}"></td>
+                        <td th:text="${competition.getArea().getName()}"></td>
+                    </tr>
+                </th:block>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-<div id="competitions">
-    <table class="table competitions">
-        <caption>Competitions</caption>
-        <thead>
-        <tr>
-            <th>Competition</th>
-            <th>Area</th>
-        </tr>
-        </thead>
-        <tbody>
-        <th:block th:each="competition : ${competitions}">
-            <tr>
-                <td><a th:href="@{'competitions/' + ${competition.getId()}}" th:text="${competition.getName}"></a></td>
-                <td><a th:href="@{'competitions/' + ${competition.getId}}" th:text="${competition.getArea.getName}"></a></td>
-            </tr>
-
-        </th:block>
-        </tbody>
-    </table>
-</div>
+<script>
+    $(document).ready(function() {
+        $('#matches-table').DataTable( {
+            "scrollY":        "200px",
+            "scrollCollapse": true,
+            "paging":         false
+        } );
+    } );
+</script>
+<script>
+    $(document).ready(function() {
+        $('#competiton-table').DataTable( {
+            "scrollY":        "200px",
+            "scrollCollapse": true,
+            "paging":         false
+        } );
+    } );
+</script>
+<script>
+    jQuery(document).ready(function($) {
+        $(".clickable-row").click(function() {
+            window.location = $(this).data("href");
+        });
+    });
+</script>
 </body>
 </html>

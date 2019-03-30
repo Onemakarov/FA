@@ -2,32 +2,69 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Match</title>
+    <title th:text="${match.getCompetition().getName()}"></title>
     <link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.1.1/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/match.css}">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
-<div id="match">
-    <table class="single match">
-        <thead>
-        <tr class="head">
-            <td><a th:href="@{'teams/' + ${match.getHomeTeam().getId()}}" th:text="${match.getHomeTeam().getName()}"></a></td>
-            <td th:text="${match.getScore().getFullTime().getHomeTeam()} + ' : ' + ${match.getScore().getFullTime().getAwayTeam()}"></td>
-            <td><a th:href="@{'teams/' + ${match.getAwayTeam().getId()}}" th:text="${match.getAwayTeam().getName()}"></a></td>
-        </tr>
-        </thead>
-        <tbody>
-        <th:block>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <a href="#" class="navbar-brand">Football Assistant</a>
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarMenu">
+        <ul class="navbar-nav ml-auto">
+            <li>
+                <a class="nav-link" href="/competitions">Competitions</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/matches">Matches</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/competitions/2001">Champions League</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/competitions/2021">EPL</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">La Liga</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Bundesliga</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="row">
+    <div class="table-hover table-bordered">
+        <table id="match-table" class="table">
+            <thead>
+            <tr>
+                <th th:href="@{'teams/' + ${match.getHomeTeam().getName()}}" th:text="${match.getHomeTeam().getName()}"></th>
+                <th th:text="${match.getScore().getFullTime().getHomeTeam()} + ' : ' + ${match.getScore().getFullTime().getAwayTeam()}"></th>
+                <th th:href="@{'teams/' + ${match.getAwayTeam().getName()}}" th:text="${match.getAwayTeam().getName()}"></th>
+            </tr>
+            </thead>
+            <tbody>
             <tr>
                 <td th:text="${match.getScore().getHalfTime().getHomeTeam()}"></td>
-                <td>Half Time</td>
+                <td>Half time</td>
                 <td th:text="${match.getScore().getHalfTime().getAwayTeam()}"></td>
             </tr>
-        </th:block>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 </div>
-
-
+<script>
+    jQuery(document).ready(function($) {
+        $(".clickable-row").click(function() {
+            window.location = $(this).data("href");
+        });
+    });
+</script>
 </body>
 </html>
